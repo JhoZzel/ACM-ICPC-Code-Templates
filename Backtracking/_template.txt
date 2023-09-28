@@ -1,0 +1,20 @@
+BACKTRACKING template
+
+sea state una variable global
+
+void backtracking(res, arg) {
+    if (state es un estado terminal) {
+        // Realiza algo con 'state' y retorna algo
+    }
+    for (state' alcanzable desde state) {
+        // Realiza algo
+
+        // Aplicamos cambios para el siguiente backtracking()
+        previous = state
+        state = state'        
+        backtracking(algunos parámetros')
+        
+        // Revertimos cambios
+        state = previous
+    }
+}
