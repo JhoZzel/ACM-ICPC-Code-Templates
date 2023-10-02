@@ -3,10 +3,6 @@ using namespace std;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 
-/*
-    Generate all subsets (2^n) given a n   
-*/
-
 void gen_subsets(vvi &ss, vi v, int n) {
     int aux = 0;
     if (v.size()!=0) aux = v.back();
