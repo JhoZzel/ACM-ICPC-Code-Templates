@@ -29,8 +29,8 @@ struct Point {
     T dot(P other) const { return (*this) * other; }
     T cross(P other) const { return (*this) ^ other; }
     T cross(P a, P b) const { return (a - *this).cross(b - *this); }
-    T norm2() const { return x * x + y * y; }
-    double norm() const { return sqrt((double)norm2()); }
+    T dist2() const { return x * x + y * y; }
+    double norm() const { return sqrt((double)dist2()); }
     friend double dist(P p, P q) { return (p - q).norm(); }
     double angle() const { return atan2(y, x); }
     P unit() const { return *this/norm(); }
