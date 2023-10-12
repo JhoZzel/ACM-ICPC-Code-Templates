@@ -13,8 +13,8 @@ typedef pair<ll,ll> pll;
 typedef vector<ii> vii;
 typedef vector<pll> vll;
 
-const int N = 2e5 + 5;
-const int LOG = 18;
+const int N = 1e5 + 5;
+const int LOG = 17;
 
 template<class T>
 struct ST {
@@ -25,15 +25,15 @@ struct ST {
         for(int i = 0; i < n; i++) jmp[i][0] = A[i];
         for(int d = 1, p = 1; 2 * p <= n; d++, p <<= 1) {
             for(int i = 0; i + 2 * p - 1 < n; i++) {
-                jmp[i][d] = min(jmp[i][d - 1], jmp[i + p][d - 1]);
+                jmp[i][d] = gcd(jmp[i][d - 1], jmp[i + p][d - 1]);
             }
         }
     }
 
-    T query(int l, int r) {
+    T query(int l, int r) { // [l,r]
         int d = r - l + 1;
         int k = 31 - __builtin_clz(d); 
-        return min(jmp[l][k], jmp[r - (1 << k) + 1][k]);
+        return gcd(jmp[l][k], jmp[r - (1 << k) + 1][k]);
     }
 };
 
@@ -43,12 +43,13 @@ int main() {
     vector<int> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
     
-    int q; cin >> q;
     ST<int> st(a);
+    for (int i = 0; i < n; i++) {
+        cout << st.query(0,i) << "\n";
+    }
+    int q; cin >> q;
     while(q--) {
-        int l,r;
-        cin >> l >> r;
-        cout << st.query(l,r-1) << "\n";
+        int x; cin >> x;    
     }
     return 0;
 }
