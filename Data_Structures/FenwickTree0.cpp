@@ -17,13 +17,13 @@ template<class T>
 struct FT {
 	vector<T> s;
     
-    FT(int n) : s(n) {}
-    FT(const vector<int>& A) {
-        s.resize(sz(A));
-        for (int i = 0; i < sz(A); i++) update(i,A[i]);
-    }
+	FT(int n) : s(n) {}
+	FT(const vector<int>& A) {
+		s.resize(sz(A));
+		for (int i = 0; i < sz(A); i++) update(i,A[i]);
+	}
 
-    void update(int pos, T x) { // a[pos] += x
+	void update(int pos, T x) { // a[pos] += x
 		for (; pos < sz(s); pos |= pos + 1) s[pos] += x;
 	}
     
@@ -33,11 +33,11 @@ struct FT {
 		return res;
     }
 	
-    T at(int pos) { // a[at]
-        return query(pos + 1) - query(pos); 
-    }
+	T at(int pos) { // a[at]
+		return query(pos + 1) - query(pos); 
+	}
     
-    T query(int l, int r) { // sum of values in [l,r]
+	T query(int l, int r) { // sum of values in [l,r]
 		return query(r + 1) - query(l);
 	}
 
@@ -46,11 +46,11 @@ struct FT {
 		if (sum <= 0) return -1;
 		int pos = 0;
 		for (int pw = 1 << 25; pw; pw >>= 1) {
-			if (pos + pw <= sz(s) && s[pos + pw-1] < sum)
-				pos += pw, sum -= s[pos-1];
+		if (pos + pw <= sz(s) && s[pos + pw-1] < sum)
+			pos += pw, sum -= s[pos-1];
 		}
 		return pos;
-	}
+    }
 };
 
 int main() {
