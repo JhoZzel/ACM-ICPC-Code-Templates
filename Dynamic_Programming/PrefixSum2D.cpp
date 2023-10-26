@@ -10,11 +10,6 @@ int main() {
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
             cin >> a[i][j];
-        }
-    }
-  
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++) {
             pre[i][j] = a[i][j] + pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1];
         }
     }
