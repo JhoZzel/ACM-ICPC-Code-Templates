@@ -4,7 +4,7 @@ using namespace std;
 const int N = 1000 + 5;
 const int MOD = 1e9 + 7;
 
-int C[N+5][N+5];
+int C[N + 5][N + 5];
 
 void get_combinatorials() {
     C[0][0] = 1;
