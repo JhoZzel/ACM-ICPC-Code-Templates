@@ -37,7 +37,7 @@ void get_factorials() {
     }
 }
 
-int C_mod(int n, int k) {
+int C(int n, int k) {
     return mul_mod(fact[n], inv_mod(mul_mod(fact[k], fact[n- k], MOD), MOD), MOD);
 }
 int main() {
@@ -47,7 +47,7 @@ int main() {
     while(t--) {
         int a,b; 
         cin >> a >> b;
-        cout << C_mod(a, b) << "\n";
+        cout << C(a, b) << "\n";
     }
     return 0;
 }

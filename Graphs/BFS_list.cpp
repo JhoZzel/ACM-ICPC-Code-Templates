@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#inclde <bits/stdc++.h>
 #define pb push_back 
 using namespace std;
 typedef vector<int> vi;

@@ -39,7 +39,6 @@ void DFS() {
     for (int i = 0; i < n; i++) {
         if (color[i]) continue;
         DFS_visit(i);
-        cout << endl;
     }
 }
 
