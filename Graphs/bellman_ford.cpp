@@ -10,7 +10,7 @@ int d[N];
 vector<tuple<int,int,int>> edges;
 
 bool bellman_ford(int s0) {
-    for (int i = 0; i < n; i++) d[i] = INF;
+    fill(d, d + n, INF);
     d[s0] = 0;
     for (int i = 0; i < n; i++) {
         for (auto [u, v, w] : edges) {
