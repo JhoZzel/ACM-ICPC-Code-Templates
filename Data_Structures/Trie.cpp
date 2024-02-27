@@ -7,14 +7,17 @@ const int LOG = 60;
 const int N = 1e5 + 5;  
 
 struct Trie{ 
-    int trie[N * LOG][2];
-    int V = 0;    
- 
+    int nodes = 0;
+    vector<vector<int>> trie;
+
+    Trie() : trie(N * LOG, vector<int>(2, 0)) {}
+    Trie(int n) : trie(n * LOG, vector<int>(2, 0)) {}
+
     void add(ll x) { // Insert X in the trie
         int r = 0;
         for (int i = LOG; i >= 0; i--) {
             int ch = (x >> i) & 1;
-            if (!trie[r][ch]) trie[r][ch] = ++V;
+            if (!trie[r][ch]) trie[r][ch] = ++nodes;
             r = trie[r][ch];
         }
     }
@@ -40,8 +43,6 @@ int main() {
     t.add(5);
     t.add(15);
     t.add(7);
-    t.add(1288212);
-    t.add(22882191);
     
     ll x;
     while(cin >> x) {
