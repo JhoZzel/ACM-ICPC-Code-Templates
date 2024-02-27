@@ -2,12 +2,12 @@
 #define fast_io ios_base::sync_with_stdio(false); cin.tie (NULL)
 using namespace std;
 
-const int N = 2e4 + 5;
-const int LOG = 18;
+const int N = 1e5 + 5;
+const int LOG = 17;
 
 template<class T> 
-struct SparseTable {
-    T jmp[N][LOG];
+struct SparseTable { // indexed-0
+    T jmp[N][LOG]; // jmp[i][d] = min(a[i], ... a[i + 2^d-1])
 
     SparseTable(const vector<T>& A) {
         int n = A.size();
@@ -19,10 +19,14 @@ struct SparseTable {
         }
     }
 
-    T query(int l, int r) {
+    T query(int l, int r) { // Consulta indempotente f(A) = f(S(A))
         int d = r - l + 1;
         int k = 31 - __builtin_clz(d); 
         return min(jmp[l][k], jmp[r - (1 << k) + 1][k]);
+    }
+
+    T at(int pos) {
+        return query(pos, pos);
     }
 };
 

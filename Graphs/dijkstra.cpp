@@ -1,13 +1,14 @@
 #include <bits/stdc++.h>
 #define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
 using namespace std;
+typedef long long ll;
 typedef pair<int,int> ii;
 
-const int INF = 1e9 + 5;
+const ll INF = 1e18 + 5;
 const int N = 1e5 + 5;
 
 int n,m;
-int D[N];
+ll D[N];
 vector<ii> G[N];
 
 void dijkstra(int s) {
@@ -18,7 +19,7 @@ void dijkstra(int s) {
     while(!Q.empty()) {
         int u,d;
         tie(d,u) = Q.top(); Q.pop();
-        if (d != D[u]) continue;
+        if (d != D[u]) continue; // be careful!!
         for (auto [v, w] : G[u]) {
             if (D[u] + w < D[v]) {
                 D[v] = D[u] + w;
