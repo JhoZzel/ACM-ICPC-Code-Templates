@@ -11,7 +11,7 @@ struct Trie{
     vector<vector<int>> trie;
 
     Trie() : trie(N * LOG, vector<int>(2, 0)) {}
-    Trie(int n) : trie(n * LOG, vector<int>(2, 0)) {}
+    Trie(int n) : trie((n + 5) * LOG, vector<int>(2, 0)) {}
 
     void add(ll x) { // Insert X in the trie
         int r = 0;
@@ -51,4 +51,3 @@ int main() {
     
     return 0;
 }
-

@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 #define fast_io ios_base::sync_with_stdio(0); cin.tie (0); cout.tie(0)
-#define dbg(x) do {cerr << #x <<" = " << (x) << endl; } while (false)
+#define dbg(x) cout << #x << " = " << x << endl
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define pb push_back
