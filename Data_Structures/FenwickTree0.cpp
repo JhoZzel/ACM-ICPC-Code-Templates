@@ -1,69 +1,61 @@
 #include <bits/stdc++.h>
 #define fast_io ios_base::sync_with_stdio(false); cin.tie (NULL)
-#define dbg(x) do {cerr << #x <<" = " << (x) << endl; } while (false)
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define sz(x) ((int)x.size())
-#define F first
-#define S second
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> ii;
-typedef pair<ll, ll> pll;
-typedef vector<ii> vii;
-typedef vector<pll> vll;
 
-template <class T>
-struct FT {
-    vector<T> s;
+struct FenwickTree { // 1-indexed
+    int n; 
+    vector<ll> ft;
 
-    FT(int n) : s(n) {}
-    FT(const vector<int> &A) {
-        s.resize(sz(A));
-        for (int i = 0; i < sz(A); i++) update(i, A[i]);
+    FenwickTree(const vector<int> &a) {
+        n = a.size();
+        ft = vector<ll>(n + 1, 0);
+        for (int i = 0; i < n; i++) {
+            update(i + 1, a[i]);
+        }
     }
 
-    void update(int pos, T x) { // a[pos] += x
-        for (; pos < sz(s); pos |= pos + 1)
-            s[pos] += x;
+    void update(int pos, ll x) { // a[pos] += x
+        while(pos <= n) {
+            ft[pos] += x;
+            pos += (-pos) & pos;
+        }
     }
-    T query(int pos) { // sum of values in [0,pos>
+    
+    ll query(int pos) { 
         ll res = 0;
-        for (; pos > 0; pos &= pos - 1) res += s[pos - 1];
+        while(pos > 0) {
+            res += ft[pos];
+            pos &= pos - 1; // pos -= LSO(pos)
+        }
         return res;
     }
 
-    T at(int pos) { // a[at]
-        return query(pos + 1) - query(pos);
+    ll query(int l, int r) { 
+        return query(r) - query(l - 1);
     }
 
-    T query(int l, int r) { // sum of values in [l,r]
-        return query(r + 1) - query(l);
-    }
-
-    int lower_bound(T sum) { // min pos st sum of [0, pos] >= sum
-        // Returns n if no sum is >= sum, or -1 if empty sum is.
-        if (sum <= 0) return -1;
-        int pos = 0;
-        for (int pw = 1 << 25; pw; pw >>= 1) {
-            if (pos + pw <= sz(s) && s[pos + pw - 1] < sum)
-                pos += pw, sum -= s[pos - 1];
-        }
-        return pos;
+    ll at(int pos) { 
+        return query(pos) - query(pos - 1);
     }
 };
 
 int main() {
-    vector<int> a({4, 3, 11, 2, 77, 12, 100, 20});
-
-    FT<ll> ft(a);
-    cout << ft.lower_bound(0) << "\n";
-    cout << ft.lower_bound(229) << "\n";
-    cout << ft.lower_bound(230) << "\n";
-
-    cout << ft.query(2, 5) << "\n"; // a[2] + a[3] .. + a[5];
-    ft.update(3, 100);				// a[3] = 100 => a[3] += 100 => a[3] = 177
-    cout << ft.query(2, 5) << "\n"; // a[2] + a[3] .. + a[5];
-
+    fast_io;
+    int n,m; 
+    cin >> n >> m;
+    vector<int> a(n);
+    for (int &e : a) cin >> e;
+    FenwickTree FT(a);
+    while(m--) {
+        int t,x,y;
+        cin >> t >> x >> y;
+        if (t == 0) {
+            cout << FT.query(x,y) << "\n";
+        }
+        else {
+            FT.update(x, y - FT.at(x));
+        }
+    }
     return 0;
 }
