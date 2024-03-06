@@ -24,13 +24,15 @@ using namespace std;
 
 /// Debug
 #define dbg(x) cout << "=> ["#x << " = " << x << "]" << endl
-#define print_i(x) cout << "-> " << #x << "[]: "; each(e,x) cout << e << " "; cout << endl
+#define print_i(x) cout << "-> " << #x << ": "; each(e,x) cout << e << " "; cout << endl
 #define print_ii(x) cout << "-> " << #x << ": "; each(e,x) cout << "(" << e.F << "-" << e.S << ") "; cout << endl;
 #define print_iii(x) cout << "-> " << #x << ": "; for (auto [u,v,w] : x) cout << "(" << u << "-" << v <<  "-" << w << ") "; cout << endl;
 
 // Others
-template <class T> T rev(T x) {reverse(all(x)); return x; }
 #define fsp(x,e) fixed << setprecision(e) << x
+template <class T> int low_b(int t, T x) { return distance(x.begin(), lower_bound(all(x), t)); }
+template <class T> int up_b(int t, T x) { return distance(x.begin(), upper_bound(all(x), t)); }
+template <class T> T rev(T x) { reverse(all(x)); return x; }
 using u128 = __uint128_t;
 using u64  = uint64_t;
 using ull  = unsigned long long;
