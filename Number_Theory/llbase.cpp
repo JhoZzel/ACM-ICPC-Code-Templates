@@ -17,14 +17,14 @@ ll bpow(ll a, ll e, ll mod) {
     a %= mod;
     ll r = 1;
     while(e) {
-        if (e & 1) r = mul(r, a);
-        a = mul(a, a);
+        if (e & 1) r = mul(r, a, mod);
+        a = mul(a, a, mod);
         e >>= 1;
     }
     return r;
 }
-ll inv(ll a, mod) { 
-    return bpow(a, mod - 2); 
+ll inv(ll a, ll mod) { 
+    return bpow(a, mod - 2, mod); 
 
 }
 
