@@ -15,8 +15,8 @@ int count_primes(int n) {
     if (n == 2) return 1;
     int cnt = 1;
     composite[1] = true;
-    for(int i = 3; i <= n; i += 2) {
-        if(composite[i]) continue;
+    for (int i = 3; i <= n; i += 2) {
+        if (composite[i]) continue;
         for (ll j = 1ll * i * i; j <= n; j += i) {
             composite[j] = true;
         }

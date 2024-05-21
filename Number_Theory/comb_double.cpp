@@ -10,7 +10,6 @@ ll C(int n, int k) {
     return (ll) (res + 0.01);
 }
 
-
 int main() {
     int n,k;
     cin >> n >> k;

@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
 #define dbg(x) cout << #x << " = " << x << endl;
 #define RAYA cout << string(10, '=') << endl;
 #define sz(x) (int) x.size()
@@ -45,7 +44,11 @@ string add(string a, string b) {
 }
 
 int main() {
-    fast_io;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+
+
 
     return 0;
 }

@@ -14,7 +14,7 @@ typedef long long ll;
 int main() {
     P C,a,b;
     double k = 2.5, w = PI/4, r;
-    /*
+    
     cout << "========= BASIC THING ==========\n";
     cout << "Punto A : "; cin >> a;
     cout << "Punto B : "; cin >> b;
@@ -36,7 +36,7 @@ int main() {
     cout << "a.rotate(w) = " << a.rotate(w) << endl;
     // Se rota el punto "a" respecto a "b", en sentido antihorario
     cout << "b + (a-b).rotate(w) = " << a.rotate(b,w) << endl;
-    */
+    
     
     /*
     cout << "========== Circle Intersection ===========" << endl;
