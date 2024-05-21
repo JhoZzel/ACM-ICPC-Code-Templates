@@ -7,8 +7,12 @@ typedef long long ll;
 
 const int N = 1e6 + 5;
 
-ll add(ll a, ll b, ll mod) { return (a % mod + b % mod) % mod; }
-ll mul(ll a, ll b, ll mod) { return a % mod * b % mod;}
+ll add(ll a, ll b, ll mod) { 
+    return (a % mod + b % mod) % mod; 
+}
+ll mul(ll a, ll b, ll mod) { 
+    return a % mod * b % mod;
+}
 ll bpow(ll a, ll e, ll mod) {
     a %= mod;
     ll r = 1;
@@ -19,8 +23,10 @@ ll bpow(ll a, ll e, ll mod) {
     }
     return r;
 }
-ll inv(ll a, mod) { return bpow(a, mod - 2); }
+ll inv(ll a, mod) { 
+    return bpow(a, mod - 2); 
 
+}
 
 int main() {
     ios_base::sync_with_stdio(0);
