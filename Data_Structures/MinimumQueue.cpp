@@ -1,29 +1,29 @@
 #include <bits/stdc++.h>
 #define dbg(x) cerr << #x << " = " << x << endl
 #define raya cerr << string(15, '=') << endl
-#define F first
-#define S second
+#define ff first
+#define ss second
 using namespace std;
 typedef long long ll;
 
-struct MAX_Stack{
+struct MAX_Queue{
     stack<pair<int,int>> s1,s2;
     int query() {
         if (s1.empty() or s2.empty()) {
-            return s1.empty() ? s2.top().S : s1.top().S;
+            return s1.empty() ? s2.top().ss : s1.top().ss;
         }
-        return max(s1.top().S, s2.top().S);
+        return max(s1.top().ss, s2.top().ss);
     }
     void add(int x) {
-        int mx = s1.empty() ? x : max(x, s1.top().S);
+        int mx = s1.empty() ? x : max(x, s1.top().ss);
         s1.emplace(x, mx);
     }
-    void remove() {
+    void pop() {
         if (s2.empty()) {
             while(!s1.empty()) {
-                int e = s1.top().F;
+                int e = s1.top().ff;
                 s1.pop();
-                int mx = s2.empty() ? e : max(e, s2.top().S);
+                int mx = s2.empty() ? e : max(e, s2.top().ss);
                 s2.emplace(e, mx);
             }
         }
@@ -42,14 +42,13 @@ int main() {
     cin >> n >> L;
     vector<int> a(n);
     for (int &e : a) cin >> e;
-    MAX_Stack r;
+    MAX_Queue r;
     for (int i = 0; i < n; i++) {
         r.add(a[i]);
         if (i < L - 1) continue;
         cout << r.query() << ' ';
-        r.remove();
+        r.pop();
     }
     cout << '\n';
     return 0;
 }
-
