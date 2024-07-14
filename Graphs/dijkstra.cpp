@@ -20,7 +20,7 @@ vector<int> dijkstra(int s0) {
     while(!Q.empty()) {
         int u,d;
         tie(d,u) = Q.top(); Q.pop();
-        if (d != D[u]) continue; // be careful!!
+        if (d > D[u]) continue; // be careful!!
         for (auto [v, w] : G[u]) {
             if (D[u] + w < D[v]) {
                 D[v] = D[u] + w;
