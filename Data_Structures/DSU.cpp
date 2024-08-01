@@ -6,23 +6,22 @@ const int N = 1e5 + 5;
 
 struct DSU {
     int n;
-    vector<int> par;
-    vector<int> size;
-    DSU(int n) : par(n), size(n, 1) { 
-        iota(par.begin(), par.end(), 0); 
+    vector<int> par, size;
+    void init(int n) {
+        par.resize(n);
+        size.assign(n, 1);
+        iota(all(par), 0);
     }
     int get(int x) {
         return x == par[x] ? x : par[x] = get(par[x]);
     }
-    bool can(int a, int b) {
-        return get(a) != get(b);
-    }
-    void join(int a, int b) {
+    bool join(int a, int b) {
         a = get(a), b = get(b);
-        if (a == b) return;
+        if (a == b) return 0;
         if (size[a] < size[b]) swap(a,b);
         par[b] = a;
         size[a] += size[b];
+        return 1;
     }
 };
 
@@ -41,7 +40,7 @@ int main() {
             dsu.join(a,b);
         }
         else {
-            cout << (!dsu.can(a,b) ? "YES" : "NO") << '\n';
+            cout << (!dsu.join(a,b) ? "YES" : "NO") << '\n';
         }
     }
     return 0;
