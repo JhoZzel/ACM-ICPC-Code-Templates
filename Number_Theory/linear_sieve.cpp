@@ -2,30 +2,32 @@
 using namespace std;
 typedef long long ll;
 
-const int MAX = 1e8 + 1;
+const int MAX_V = 1e7 + 1;
 
-bitset<MAX> is_prime;
+bitset<MAX_V> composite;
 vector<int> primes;
 
 void sieve() {
-    is_prime.set();
-    is_prime[0] = is_prime[1] = false;
-    for (int i = 2; i < MAX; i++) {
-		if (is_prime[i]) primes.emplace_back(i);
+    composite[0] = composite[1] = true;
+    for (int i = 2; i < MAX_V; i++) {
+		if (!composite[i]) primes.emplace_back(i);
 		for (int p : primes) {
-			if (i * p >= MAX) break;
-			is_prime[i * p] = false;
+			if (i * p >= MAX_V) break;
+			composite[i * p] = true;
 			if (i % p == 0) break;
 		}
 	}
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
+    
     sieve();
+    
+    cout << "We found " << primes.size() << " primes\n";
+    cout << "First primes....\n";
+    for (int i = 0; i < 100; i++) {
+        cout << primes[i] << " ";
+    }
 
-
-
-    return 0;
+    return 0; 
 }
