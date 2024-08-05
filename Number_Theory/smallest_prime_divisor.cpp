@@ -8,8 +8,7 @@ int spf[MAX_V];
 
 void sieve() { 
     iota(spf, spf + MAX_V, 0);
-	for (int i = 4; i < MAX_V; i += 2) spf[i] = 2;
-	for (int i = 3; i * i < MAX_V; i += 2) {
+	for (int i = 2; i * i < MAX_V; i++) {
 		if (spf[i] != i) continue;
         for (int j = i * i; j < MAX_V; j += i) {
             if (spf[j] == j) {

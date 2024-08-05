@@ -28,6 +28,7 @@ int main() {
     for (int i = 0; i < 100; i++) {
         cout << primes[i] << " ";
     }
+    cout << "Last prime : " << primes.back() << '\n';
 
     return 0; 
 }
