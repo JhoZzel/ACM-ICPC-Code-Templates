@@ -12,8 +12,8 @@ struct DSU {
         size.assign(n, 1);
         iota(all(par), 0);
     }
-    int get(int x) {
-        return x == par[x] ? x : par[x] = get(par[x]);
+    int get(int a) {
+        return a == par[a] ? a : par[a] = get(par[a]);
     }
     bool join(int a, int b) {
         a = get(a), b = get(b);
