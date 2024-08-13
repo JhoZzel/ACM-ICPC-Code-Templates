@@ -16,12 +16,12 @@ typedef long long ll;
 
 struct FlowEdge {
     int v, u;
-    int cap, flow = 0;
-    FlowEdge(int v, int u, int cap) : v(v), u(u), cap(cap) {}
+    ll cap, flow = 0;
+    FlowEdge(int v, int u, ll cap) : v(v), u(u), cap(cap) {}
 };
 
 const int N = 500 + 5;
-const int INF = 1e9 + 5;
+const ll INF = 9e18 + 5;
 
 int V,E,s,t;
 int ptr[N];
@@ -31,7 +31,7 @@ queue<int> Q;
 vector<int> G[N]; // 0-indexed
 vector<FlowEdge> edges; 
 
-void add_edge(int v, int u, int cap) {
+void add_edge(int v, int u, ll cap) {
     edges.emplace_back(v, u, cap);
     edges.emplace_back(u, v, 0);
     G[v].push_back(E);
@@ -53,14 +53,14 @@ bool bfs() {
     return level[t] != -1;
 }
 
-int dfs(int v, int pushed) {
+ll dfs(int v, ll pushed) {
     if (pushed == 0) return 0;
     if (v == t) return pushed;
     for (int& cid = ptr[v]; cid < (int)G[v].size(); cid++) {
         int id = G[v][cid];
         int u = edges[id].u;
         if (level[v] + 1 != level[u] || edges[id].cap - edges[id].flow < 1) continue;
-        int tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
+        ll tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
         if (tr == 0) continue;
         edges[id].flow += tr;
         edges[id ^ 1].flow -= tr;
@@ -69,25 +69,19 @@ int dfs(int v, int pushed) {
     return 0;
 }
 
-int max_flow() { 
-    int f = 0;
+ll max_flow() { 
+    ll f = 0;
     while (true) {
         fill(level, level + V, -1);
         level[s] = 0;
         Q.push(s);
         if (!bfs()) break;
         fill(ptr, ptr + V, 0);
-        while (int pushed = dfs(s, INF)) {
+        while (ll pushed = dfs(s, INF)) {
             f += pushed;
         }
     }
     return f;
-}
-
-void clear() {
-    E = 0;
-    edges.clear();
-    fill(G, G + V, vector<int>());
 }
 
 int main() {

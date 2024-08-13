@@ -1,20 +1,23 @@
 #include <bits/stdc++.h>
-#define dbg(x) cerr << " [ " << #x << " = " << x << " ]\n"
-#define print_v(x) cerr << #x << "[]: "; for (auto e : x) cerr << e <<" "; cerr << '\n'
-#define RAYA cerr << string(15,'=')
 using namespace std;
-typedef long long ll;
+
+#define dbg(x) cerr << #x << " = " << x << endl
+#define print_v(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
+#define raya cerr << string(20, '=') << endl
+
+#define eb emplace_back
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define sz(x) (int)x.size()
+#define ff first
+#define ss second
 
 const int N = 2e5 + 5;
 const int INF = 2e9;
 const int MOD = 1e9 + 7;
 
-int add(int a, int b) { 
-    return (a + b) % MOD; 
-}
-int mul(int a, int b) { 
-    return 1ll * a * b % MOD; 
-}
+int add(int a, int b) { return (a + b) % MOD; }
+int mul(int a, int b) { return 1ll * a * b % MOD; }
 int bpow(int a, int e) {
     int r = 1;
     while(e) {
@@ -24,9 +27,7 @@ int bpow(int a, int e) {
     }
     return r;
 }
-int inv(int a) { 
-    return bpow(a, MOD - 2);
-}
+int inv(int a) { return bpow(a, MOD - 2); }
 
 int f[N];
 int finv[N];
@@ -52,7 +53,6 @@ int main() {
     cin.tie(0); cout.tie(0);
     init();
  
-
 
     return 0;
 }
