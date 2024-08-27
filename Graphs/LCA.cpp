@@ -27,8 +27,8 @@ void dfs(int u, int p = 0) {
     tin[u] = timer++;
 
     up[u][0] = p;
-    for(int i = 1; i < LOG; i++) {
-        up[u][i] = up[up[u][i - 1]][i - 1];
+    for(int j = 1; j < LOG; j++) {
+        up[u][j] = up[up[u][j - 1]][j - 1];
     }
     
     for(int v : G[u]) {
