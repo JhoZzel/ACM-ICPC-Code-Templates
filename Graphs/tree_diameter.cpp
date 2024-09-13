@@ -4,30 +4,24 @@ using namespace std;
 const int N = 2e5 + 5;
 
 int n;
-int level[N];
+int dis[N];
 vector<int> G[N];
 
 pair<int,int> get_furthest(int s0) {
-    queue<int> Q;
-    Q.push(s0);
-    fill(level, level + n, -1);
-    level[s0] = 0;
+    queue<int> Q({s0});
+    fill(dis, dis + n, -1);
+    dis[s0] = 0;
     while(!Q.empty()) {
         int u = Q.front(); Q.pop();
         for (int w : G[u]) {
-            if (level[w] != -1) continue;
-            level[w] = level[u] + 1;
+            if (dis[w] != -1) continue;
+            dis[w] = dis[u] + 1;
             Q.push(w);
         }
     }
-    
-    int far_node = 0;
-    for (int i = 0; i < n; i++) {
-        if (level[i] > level[far_node]) {
-            far_node = i;
-        }
-    }
-    return make_pair(far_node, level[far_node]);
+    int far = 0;
+    for (int i = 0; i < n; i++) if (dis[i] > dis[far]) far = i;
+    return {far, dis[far]};
 }
 
 int get_diameter() {
@@ -46,4 +40,3 @@ int main() {
     cout << get_diameter() << "\n";
     return 0;
 }
-
