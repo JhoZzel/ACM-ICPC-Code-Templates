@@ -43,8 +43,12 @@ typedef priority_queue<int, vi, greater<int>> pq_min;
 #define each(a, x) for (auto &a : x)
 
 /// Debug
-#define dbg(x) cout << "=> ["#x << " = " << x << "]" << endl
-#define RAYA cout << string(40, '=') << endl
+void dbg_out() { cerr << endl; }
+template<typename Head, typename... Tail> 
+void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
+#define dbg(...) cerr << "(" << #__VA_ARGS__ << "): ", dbg_out(__VA_ARGS__)
+
+#define raya cout << string(20, '=') << endl
 #define print_i(x) cout << "-> " << #x << ": "; each(e,x) cout << e << " "; cout << endl
 #define print_ii(x) cout << "-> " << #x << ": "; each(e,x) cout << "(" << e.F << "-" << e.S << ") "; cout << endl;
 #define print_iii(x) cout << "-> " << #x << ": "; for (auto [u,v,w] : x) cout << "(" << u << "-" << v <<  "-" << w << ") "; cout << endl;
