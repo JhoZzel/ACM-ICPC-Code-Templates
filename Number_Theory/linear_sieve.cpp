@@ -1,34 +1,52 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+#define dbg(x) cerr << #x << " = " << x << endl
+#define pv(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
+#define raya cerr << string(20, '=') << endl
+
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define sz(x) (int)x.size()
+#define eb emplace_back
+#define ff first
+#define ss second
+
 typedef long long ll;
 
-const int MAX_V = 1e7 + 1;
+const int MAX = 1e7 + 5;
 
-bitset<MAX_V> composite;
+int spf[MAX];
 vector<int> primes;
 
 void sieve() {
-    composite[0] = composite[1] = true;
-    for (int i = 2; i < MAX_V; i++) {
-		if (!composite[i]) primes.emplace_back(i);
-		for (int p : primes) {
-			if (i * p >= MAX_V) break;
-			composite[i * p] = true;
-			if (i % p == 0) break;
-		}
-	}
+    for (int i = 2; i < MAX; i++) {
+        if (spf[i] == 0) spf[i] = i, primes.push_back(i);
+        for (int j = 0; i * primes[j] < MAX; j++) {
+            spf[i * primes[j]] = primes[j];
+            if (primes[j] == spf[i]) break;
+        }
+    }
+}
+
+vector<int> get_fact(int x) {
+    vector<int> f;
+    while(x != 1) {
+        f.push_back(spf[x]);
+        x /= spf[x];
+    }       
+    return f;
 }
 
 int main() {
-    
+    cin.tie(0) -> sync_with_stdio(0);
     sieve();
-    
-    cout << "We found " << primes.size() << " primes\n";
-    cout << "First primes....\n";
-    for (int i = 0; i < 100; i++) {
-        cout << primes[i] << " ";
+    int q; cin >> q;
+    while(q--) {
+        int n; cin >> n;
+        vector<int> f = get_fact(n);
+        for (int e : f) cout << e << " ";
+        cout << '\n';
     }
-    cout << "Last prime : " << primes.back() << '\n';
-
-    return 0; 
+    return 0;
 }
