@@ -18,55 +18,47 @@ struct SAT { // 0-indexed
     vector<int> order;
     vector<int> comp;
     vector<int> component;
-    vector<vector<int>> G;
-    vector<vector<int>> Gt;
+    vector<vector<int>> G[2];
     
     SAT(int n) : n(n) {
         comp.resize(2 * n);
         vis.assign(2 * n, false);
-        G.assign(2 * n, vector<int> ());
-        Gt.assign(2 * n, vector<int> ());
+        G[0].assign(2 * n, vector<int> ());
+        G[1].assign(2 * n, vector<int> ());
     }
 
     void add_edge(int u, int v) { // u OR v
         //  u -> 2i
         // ~u -> 2i + 1
-        G[u ^ 1].emplace_back(v);
-        G[v ^ 1].emplace_back(u);
-        Gt[v].emplace_back(u ^ 1);
-        Gt[u].emplace_back(v ^ 1);
+        G[0][u ^ 1].emplace_back(v);
+        G[0][v ^ 1].emplace_back(u);
+        G[1][v].emplace_back(u ^ 1);
+        G[1][u].emplace_back(v ^ 1);
+    }
+    
+    void dfs(int u, int id) {
+        vis[u] = true;
+        for (int v : G[id][u]) {
+            if (vis[v]) continue;
+            dfs(v, id);
+        }
+        (id ? component : order).push_back(u);
     }
 
-    void dfs1(int u) {
-        vis[u] = true;
-        for (int w : G[u]) {
-            if (vis[w]) continue;
-            dfs1(w);
-        }
-        order.push_back(u);
-    }
-    
-    void dfs2(int u) {
-        vis[u] = true;
-        for (int w : Gt[u]) {
-            if (vis[w]) continue;
-            dfs2(w);
-        }
-        component.push_back(u);
-    }
-    
     void get_SCC() {
-        for (int i = 0; i < 2 * n; i++) {
-            if (vis[i]) continue;
-            dfs1(i);
+        for (int u = 0; u < 2 * n; u++) {
+            if (vis[u]) continue;
+            dfs(u, 0);
         }
         reverse(order.begin(), order.end());
         vis.assign(2 * n, false);
         int component_id = 0;
-        for (int i : order) {
-            if (vis[i]) continue;
-            dfs2(i);
-            for (int x : component) comp[x] = component_id;
+        for (int u : order) {
+            if (vis[u]) continue;
+            dfs(u, 1);
+            for (int x : component) {
+                comp[x] = component_id;
+            }
             component_id++;
             component.clear();
         }
@@ -113,6 +105,7 @@ int main() {
     if (res.empty()) cout << "-1\n";
     else {
         for (int x : res) cout << (x ? "R" : "B");
+        cout << '\n';
     }
     return 0;
 }
