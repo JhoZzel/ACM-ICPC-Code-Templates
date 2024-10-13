@@ -1,45 +1,69 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(false); cin.tie (NULL)
 using namespace std;
 
-const int N = 1e5 + 5;
-const int LOG = 17;
+#define dbg(x) cerr << #x << " = " << x << endl
+#define pv(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
+#define raya cerr << string(20, '=') << endl
 
-template<class T> 
-struct SparseTable { // indexed-0
-    T jmp[N][LOG]; // jmp[i][d] = min(a[i], ... a[i + 2^d-1])
+#define eb emplace_back
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define sz(x) (int)x.size()
+#define ff first
+#define ss second
 
-    SparseTable(const vector<T>& A) {
-        int n = A.size();
-        for(int i = 0; i < n; i++) jmp[i][0] = A[i];
-        for(int d = 1, p = 1; 2 * p <= n; d++, p <<= 1) {
-            for(int i = 0; i + 2 * p - 1 < n; i++) {
-                jmp[i][d] = min(jmp[i][d - 1], jmp[i + p][d - 1]);
-            }
+using ll = long long;
+
+const int INF = 1e9 + 10;
+const int N = 2e5 + 5;
+const int LOG = 18;
+
+int n;
+int a[N];
+int jmp[N][LOG];
+
+int f(int a, int b) {
+    return min(a, b);
+}
+
+void build() { // 0-indexed
+    for (int i = 0; i < n; i++) jmp[i][0] = a[i];
+    for(int d = 1, p = 1; 2 * p <= n; d++, p <<= 1) {
+        for(int i = 0; i + 2 * p - 1 < n; i++) {
+            jmp[i][d] = f(jmp[i][d - 1], jmp[i + p][d - 1]);
         }
     }
+}
 
-    T query(int l, int r) { // Consulta indempotente f(A) = f(S(A))
-        int d = r - l + 1;
-        int k = 31 - __builtin_clz(d); 
-        return min(jmp[l][k], jmp[r - (1 << k) + 1][k]);
-    }
+int query(int l, int r) { // f(A) = f(S(A)) 
+    int d = r - l + 1; 
+    int k = 31 - __builtin_clz(d); 
+    return f(jmp[l][k], jmp[r - (1 << k) + 1][k]);
+}
 
-    T at(int pos) {
-        return query(pos, pos);
-    }
-};
-
-int main() {
-    int n; cin >> n;
-    vector<int> a(n);
-    for (int &e: a) cin >> e;
+void solve() {
+    cin >> n;
+    for (int i = 0; i < n; i++) cin >> a[i];
+    
+    build();
+    
     int q; cin >> q;
-    SparseTable<int> ST(a);
     while(q--) {
         int l,r;
         cin >> l >> r;
-        cout << ST.query(l,r) << "\n";
+        l--; r--;
+        cout << query(l, r) << '\n';
     }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr); 
+
+    int t; cin >> t;
+    while(t--) {
+        solve();
+    }
+ 
     return 0;
 }

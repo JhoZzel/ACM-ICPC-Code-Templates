@@ -18,22 +18,22 @@ struct FenwickTree { // 1-indexed
     int N;
     vector<int> FT;
     FenwickTree(int n): N(n + 5), FT(n + 5) {}
-    void update(int i, int x) {
+    void upd_point(int i, int x) {
         for (; i < N; i += i & -i) FT[i] += x;
     }
-    int sum(int i) {
+    void update(int l, int r, int x) {
+        upd_point(l, x);
+        upd_point(r + 1, -x);
+    }
+    int query(int i) {
         int sa = 0;
         for (; i > 0; i -= i & -i) sa += FT[i];
         return sa;
     }
-    int query(int l, int r) {
-        return sum(r) - sum(l - 1);
-    }
 };
 
 void solve() {
-    int n;
-    cin >> n;
+    int n; cin >> n;
     FenwickTree FT(n);
     
 }
@@ -46,3 +46,4 @@ int main() {
     }
     return 0;
 }
+

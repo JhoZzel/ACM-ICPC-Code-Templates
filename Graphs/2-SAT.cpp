@@ -1,9 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct SATSolver {
+#define dbg(x) cerr << #x << " = " << x << endl
+#define pv(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
+#define raya cerr << string(20, '=') << endl
+
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define sz(x) (int)x.size()
+#define eb emplace_back
+#define ff first
+#define ss second
+
+struct SAT { // 0-indexed
     int n;
-    int m;
     vector<bool> vis;
     vector<int> order;
     vector<int> comp;
@@ -11,37 +21,36 @@ struct SATSolver {
     vector<vector<int>> G;
     vector<vector<int>> Gt;
     
-    SATSolver(int n, int m) : n(n), m(m) {
-        // x_i = 2i
-        // ~x_i = 2 * i + 1
+    SAT(int n) : n(n) {
         comp.resize(2 * n);
         vis.assign(2 * n, false);
         G.assign(2 * n, vector<int> ());
         Gt.assign(2 * n, vector<int> ());
     }
 
-    void add_edge(int u, int v) {
-        // u OR v
+    void add_edge(int u, int v) { // u OR v
+        //  u -> 2i
+        // ~u -> 2i + 1
         G[u ^ 1].emplace_back(v);
         G[v ^ 1].emplace_back(u);
         Gt[v].emplace_back(u ^ 1);
         Gt[u].emplace_back(v ^ 1);
     }
 
-    void DFS1(int u) {
+    void dfs1(int u) {
         vis[u] = true;
         for (int w : G[u]) {
             if (vis[w]) continue;
-            DFS1(w);
+            dfs1(w);
         }
         order.push_back(u);
     }
     
-    void DFS2(int u) {
+    void dfs2(int u) {
         vis[u] = true;
         for (int w : Gt[u]) {
             if (vis[w]) continue;
-            DFS2(w);
+            dfs2(w);
         }
         component.push_back(u);
     }
@@ -49,14 +58,14 @@ struct SATSolver {
     void get_SCC() {
         for (int i = 0; i < 2 * n; i++) {
             if (vis[i]) continue;
-            DFS1(i);
+            dfs1(i);
         }
         reverse(order.begin(), order.end());
         vis.assign(2 * n, false);
         int component_id = 0;
         for (int i : order) {
             if (vis[i]) continue;
-            DFS2(i);
+            dfs2(i);
             for (int x : component) comp[x] = component_id;
             component_id++;
             component.clear();
@@ -78,43 +87,32 @@ struct SATSolver {
 };
 
 int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n, m;
     cin >> n >> m;
-    SATSolver Solver(n,m);
+    SAT Solver(n);
     for (int i = 0; i < m; i++) {
-        // Se lee 1-indexed
-        // x_i = i
-        // ~x_i = -i
-        int u, v;
-        cin >> u >> v;
-        if (u < 0) {
-            u = -u;
+        int v[3] = {};
+        for (int j = 0; j < 3; j++) {
+            int u;
+            char c;
+            cin >> u >> c;
             u--;
-            u = 2 * u + 1;
+            if (c == 'R') u *= 2;
+            else u = 2 * u + 1;
+            v[j] = u;
         }
-        else {
-            u--;
-            u *= 2;
-        }
-
-        if (v < 0) {
-            v = -v;
-            v--;
-            v = 2 * v + 1;
-        }
-        else {
-            v--;
-            v *= 2;
-        }
-
-        Solver.add_edge(u,v);
+        Solver.add_edge(v[0], v[1]);   
+        Solver.add_edge(v[1], v[2]);   
+        Solver.add_edge(v[0], v[2]);   
     }
 
     vector<int> res = Solver.solve();
-    if (res.empty()) cout << "There is no solution\n";
+    if (res.empty()) cout << "-1\n";
     else {
-        cout << "One possible solution is:\n";
-        for (int x : res) cout << x << " ";
+        for (int x : res) cout << (x ? "R" : "B");
     }
     return 0;
 }
