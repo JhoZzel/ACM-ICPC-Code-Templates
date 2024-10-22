@@ -12,8 +12,8 @@ using namespace std;
 #define ff first
 #define ss second
 
-typedef long long ll;
-typedef pair<int,int> pii;
+using ll = long long;
+using pii = pair<int,int>;
 
 ostream& operator<<(ostream& os, const pii& p) {
     return os << p.ff << " " << p.ss;

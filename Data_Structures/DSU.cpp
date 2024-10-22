@@ -10,7 +10,7 @@ struct DSU {
     void init(int n) {
         par.resize(n);
         size.assign(n, 1);
-        iota(all(par), 0);
+        iota(par.begin(), par.end(), 0);
     }
     int get(int a) {
         return (a == par[a]) ? a : par[a] = get(par[a]);
