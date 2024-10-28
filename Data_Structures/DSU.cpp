@@ -1,8 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-
-const int N = 1e5 + 5;
 
 struct DSU {
     int n;
@@ -23,25 +20,22 @@ struct DSU {
         size[a] += size[b];
         return 1;
     }
-};
+} dsu;
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n,m;
     cin >> n >> m;
-    DSU dsu(n);
+    dsu.init(n);
     while(m--) {
         int a,b;
         string op;
         cin >> op >> a >> b;
         a--; b--;
-        if (op == "union") {
-            dsu.join(a,b);
-        }
-        else {
-            cout << (!dsu.join(a,b) ? "YES" : "NO") << '\n';
-        }
+        if (op == "union") dsu.join(a,b);
+        else cout << (!dsu.join(a,b) ? "YES" : "NO") << '\n';
     }
     return 0;
 }
