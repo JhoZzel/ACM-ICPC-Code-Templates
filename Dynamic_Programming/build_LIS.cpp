@@ -21,6 +21,7 @@ vector<int> build_LIS(vector<int> &a) {
     vector<pair<int,int>> d(n + 1, {INF, -1});
     vector<int> par(n, -1);
     d[0] = {-INF,-1};
+   
     for (int i = 0; i < n; i++) {
         int j = lower_bound(all(d), make_pair(a[i], -INF)) - d.begin();
         if (a[i] < d[j].ff and d[j - 1].ff < a[i]) {
@@ -47,9 +48,7 @@ int main() {
     int n; cin >> n;
     vector<int> a(n);
     for (int &e : a) cin >> e;
-
     vector<int> lis = build_LIS(a);
-
     cout << sz(lis) << '\n';
     for (int x : lis) cout << x << ' ';
     cout << '\n';
