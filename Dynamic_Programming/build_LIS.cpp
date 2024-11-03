@@ -16,7 +16,7 @@ using ll = long long;
 
 const int INF = 1e9 + 5;
 
-vector<int> build_lis(vector<int> &a) { 
+vector<int> build_LIS(vector<int> &a) { 
     const int n = a.size();
     vector<pair<int,int>> d(n + 1, {INF, -1});
     vector<int> par(n, -1);
@@ -47,6 +47,11 @@ int main() {
     int n; cin >> n;
     vector<int> a(n);
     for (int &e : a) cin >> e;
-    vector<int> LS = build_lis(a);
-    for (int i: LS) cout << a[i] << " ";
+
+    vector<int> lis = build_LIS(a);
+
+    cout << sz(lis) << '\n';
+    for (int x : lis) cout << x << ' ';
+    cout << '\n';
+    return 0;
 }
