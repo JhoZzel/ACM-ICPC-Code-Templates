@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
 #define all(x) x.begin(), x.end()
 #define sz(x) ((int) x.size())
-using namespace std;
 
 const int N = 2e5 + 5;
 
@@ -57,7 +57,7 @@ void solve() {
         for (int e : comp) cout << e + 1 << " ";
         cout << endl;
     }
-    cout << "Condensed Grpah:\n";
+    cout << "Condensed Graph:\n";
     for (auto i = 0; i < nc; i++) {
         cout << i + 1 << " : ";
         for (int e : GG[i]) cout << e + 1 << " ";
@@ -66,7 +66,7 @@ void solve() {
 }
 
 int main() {
-    fast_io;
+    cin.tie(0)->sync_with_stdio(0);
     cin >> n >> m;
     for (int i = 0; i < m; i++) {
         int u,v;

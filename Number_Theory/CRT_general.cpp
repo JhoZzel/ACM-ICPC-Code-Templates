@@ -1,11 +1,10 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(false); cin.tie (NULL)
-#define F first
-#define S second
 using namespace std;
-typedef long long ll;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
+
+#define ff first
+#define ss second
+
+using ll = long long;
 
 ll exGCD(ll a, ll b, ll &x_0, ll &y_0) {
     if (b == 0) { 
@@ -30,24 +29,20 @@ ll crt(ll a1, ll m1, ll a2, ll m2) {
 }
 
 ll lcm(ll a, ll b) {
-    return a / __gcd(a,b) * b;
+    return a / gcd(a,b) * b;
 }
 
 int main() {
-	int n; cin >> n;
-    vii s;
-    for (int i = 0; i < n; i++) {
-        int a,m;
-        cin >> a >> m;
-        s.emplace_back(a,m);
-    }
+    int n; cin >> n;
+    vector<pair<int,int>> s; // [a, mod]
+    for (int i = 0; i < n; i++) cin >> s[i].ff >> s[i].ss;
     
-    ll a_now = crt(s[0].F, s[0].S, s[1].F, s[1].S);
-    ll m_now = lcm(s[0].S, s[1].S); 
+    ll a_now = crt(s[0].ff, s[0].ss, s[1].ff, s[1].ss);
+    ll m_now = lcm(s[0].ss, s[1].ss); 
 
     for (int i = 2; i < n; i++) {
-        int a = s[i].F;
-        int m = s[i].S;
+        int a = s[i].ff;
+        int m = s[i].ss;
         a_now = crt(a_now, m_now, a, m);
         m_now = lcm(m_now, m);
     }

@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
-#define dbg(x) cout << #x << " = " << x << endl;
 using namespace std;
+
+const int INF = 1e9 + 9;
 
 struct DynamicMedianMS {
     multiset<int> ms;

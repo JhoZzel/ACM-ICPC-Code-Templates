@@ -1,12 +1,8 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
-#define all(x) x.begin(), x.end()
 using namespace std;
-typedef vector<int> vi;
-typedef vector<vi> vvi;
 
 int n,m;
-vvi ady;
+vector<vector<int>> ady;
 vector<int> in;
 
 vector<int> top_order() {
@@ -24,7 +20,7 @@ vector<int> top_order() {
         }
         order.push_back(u);
     }
-    return (order.size() < n) ? vector<int>() : order;
+    return ((int)order.size() < n) ? vector<int>() : order;
 }
 
 int main() {

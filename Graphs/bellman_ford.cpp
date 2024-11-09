@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
 using namespace std;
 
 const int INF = 1e9 + 5;
@@ -30,7 +29,8 @@ bool bellman_ford(int s0) {
 }
 
 int main() {
-    fast_io;
+    cin.tie(0)->sync_with_stdio(0);
+
     int s;
     cin >> n >> m >> s;
     for (int i = 0; i < m; i++) {

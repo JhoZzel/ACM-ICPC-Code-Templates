@@ -1,36 +1,31 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(false); cin.tie (NULL)
 using namespace std;
 
-const int N = 1e7 + 5;
+const int MAX = 1e7 + 5;
 
-vector<int> SPF(N);
+int spf[MAX];
+vector<int> pr;
 
-void get_SPF() {
-	SPF[1] = 1;
-	for (int i = 2; i < N; i++) SPF[i] = i;
-	for (int i = 4; i < N; i+=2) SPF[i] = 2;
-	for (int i = 3; i * i < N; i += 2) {
-		if (SPF[i] != i) continue;
-        for (int j = i * i; j < N; j += i) {
-            if (SPF[j] == j) {
-                SPF[j] = i;
-            } 
+void sieve() {
+    for (int i = 2; i < MAX; i++) {
+        if (!spf[i]) spf[i] = i, pr.push_back(i);
+        for (int j = 0; i * pr[j] < MAX; j++) {
+            spf[i * pr[j]] = pr[j];
+            if (pr[j] == spf[i]) break;
         }
     }
 }
 
 void get_phi_mu(int n, int &phi, int &mu) {
     while (n != 1) {
-        int p = SPF[n];
-        phi -= phi/p;
+        int p = spf[n];
+        phi -= phi / p;
         int e = 0;
         while(n % p == 0) {
             n /= p;
             e++;
         }
-        if (e > 1) mu = 0;
-        else mu = -mu;
+        mu = (e > 1) ? 0 : -mu;
     }
 }
 
@@ -43,8 +38,8 @@ void solve() {
 }
 
 int main() {
-	fast_io;        
-    get_SPF();
+    cin.tie(0)->sync_with_stdio(0);
+    sieve();
     int q; cin >> q;
     while(q--) {
         solve();
