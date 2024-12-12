@@ -18,6 +18,7 @@ using ll = long long;
 using ull = unsigned long long;
 using u128 = __uint128_t;
 
+using vi = vector<int>;
 using pii = pair<int, int>;
 using pq_max = priority_queue<int>;
 using pq_min = priority_queue<int, vi, greater<int>>;
@@ -43,6 +44,9 @@ const ll INF_LL = 1e18 + 5;
 const int dx[] = {1, -1, 0, 0};
 const int dy[] = {0, 0, 1, -1};
 
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+ll random(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); }
+
 int add(int a, int b) { return (a + b) % MOD; }
 int mul(int a, int b) { return 1ll * a * b % MOD; }
 int bpow(int a, ll e) {
@@ -59,9 +63,8 @@ int inv(int a) { return bpow(a, MOD - 2); }
 
 
 
-int main() {
- 
 
+int main() {
 
     return 0;
 }

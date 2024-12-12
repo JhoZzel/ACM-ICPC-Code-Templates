@@ -1,17 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define dbg(x) cerr << #x << " = " << x << endl
-#define pv(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
-#define raya cerr << string(20, '=') << endl
-
-#define eb emplace_back
-#define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
-#define sz(x) (int)x.size()
-#define ff first
-#define ss second
-
 using ll = long long;
 
 const int INF = 1e9 + 10;
@@ -44,7 +33,7 @@ node f(node &L, node &R) { // merge function
 // [tl, tr] => Range of the node || root: [1, n]
 
 void build(int id = 1, int tl = 1, int tr = n) {
-    if (tl == tr) { // leaf node value
+    if (tl == tr) {
         T[id] = node(a[tl]);
     }
     else {
@@ -56,7 +45,7 @@ void build(int id = 1, int tl = 1, int tr = n) {
 }
 
 void update(int pos, int x, int id = 1, int tl = 1, int tr = n) {
-    if (tl == tr) { // leaf node value
+    if (tl == tr) { 
         T[id] = node(x);
     }
     else {
