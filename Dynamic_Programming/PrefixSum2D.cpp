@@ -1,25 +1,35 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef vector<int> vi;
-typedef vector<vi> vvi;
+
+using ll = long long;
+
+const int N = 1000 + 5;
+
+int n,m,q;
+int a[N][N];
+ll pre[N][N];
+
+ll sum(int x1, int y1, int x2, int y2) {
+    return pre[x2][y2] - pre[x2][y1 - 1] - pre[x1 - 1][y2] + pre[x1 - 1][y1 - 1];
+}
 
 int main() {
-    int n; cin >> n;
-    vvi a(n + 1, vi(n + 1));
-    vvi pre(n + 1 ,vi(n + 1, 0));
+    cin.tie(0) -> sync_with_stdio(0);
+
+    cin >> n >> m; 
     for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++) {
+        for (int j = 1; j <= m; j++) {
             cin >> a[i][j];
             pre[i][j] = a[i][j] + pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1];
         }
     }
     
-    int x1 = 4, y1 = 8;
-    int x2 = 6, y2 = 8;
-    
-    int val = pre[x2][y2] - pre[x2][y1 - 1] - pre[x1 - 1][y2] + pre[x1 - 1][y1 - 1];
-    cout << val << endl;
+    cin >> q;
+    while (q--) {
+        int x1,x2,y1,y2;
+        cin >> x1 >> y1 >> x2 >> y2;
+        cout << sum(x1, y1, x2, y2) << '\n';
+    }
+
     return 0;
 }
-
-

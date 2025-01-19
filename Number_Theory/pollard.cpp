@@ -20,7 +20,7 @@ ull bpow(ull a, ull e, ull mod) {
 	return r;
 }
 
-bool is_prime(ull n) {
+bool is_prime(ull n) { // miller rabin
 	if (n < 2 or n % 6 % 4 != 1) return n - 2 < 2;
 	ull s = __builtin_ctzll(n - 1), d = n >> s;
 	for (ull a : {2, 325, 9375, 28178, 450775, 9780504, 1795265022}) {
@@ -30,6 +30,7 @@ bool is_prime(ull n) {
 	}
 	return 1;
 }
+
 ull pollard(ull n) {
 	auto f = [n](ull x) { return mul(x, x, n) + 1; };
 	ull x = 0, y = 0, t = 30, prd = 2, i = 1, q;
