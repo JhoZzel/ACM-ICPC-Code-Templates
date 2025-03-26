@@ -1,14 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define dbg(x) cerr << #x << " = " << x << endl
-#define pv(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
-#define raya cerr << string(20, '=') << endl
-
 #define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
-#define sz(x) (int)x.size()
-#define eb emplace_back
 #define ff first
 #define ss second
 
@@ -23,7 +16,7 @@ vector<int> build_LIS(vector<int> &a) {
     d[0] = {-INF,-1};
    
     for (int i = 0; i < n; i++) {
-        int j = lower_bound(all(d), make_pair(a[i], -INF)) - d.begin();
+        int j = lower_bound(all(d), pair{a[i], -INF}) - d.begin();
         if (a[i] < d[j].ff and d[j - 1].ff < a[i]) {
             d[j] = {a[i], i};
             par[i] = d[j - 1].ss;
@@ -49,7 +42,7 @@ int main() {
     vector<int> a(n);
     for (int &e : a) cin >> e;
     vector<int> lis = build_LIS(a);
-    cout << sz(lis) << '\n';
+    cout << lis.size() << '\n';
     for (int x : lis) cout << x << ' ';
     cout << '\n';
     return 0;

@@ -1,11 +1,3 @@
-#include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
-using namespace std;
-typedef long long ll;
-
-ll f(int k) {
-    return 0;
-}
 
 double ternary_search(double l, double r) {
     double eps = 1e-6;          //set the error limit here
@@ -30,17 +22,4 @@ ll ternary_search(int lo, int hi) {
         ans = max(ans, f(i));
     }
     return ans;       //return the maximum of f(x) in [l, r]
-}
-
-void solve() {
-
-}
-
-int main() {
-    fast_io;
-    int t; cin >> t;
-    while(t--) {
-        solve();
-    }
-    return 0;
 }

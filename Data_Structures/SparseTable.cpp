@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e5 + 5;
-const int LOG = 17;
+const int N = 1e6 + 5;
+const int LOG = 20;
 
 int n,q;
 int a[N];

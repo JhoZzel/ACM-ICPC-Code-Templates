@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 int random(int l, int r) {
@@ -45,6 +42,24 @@ pair<node*, node*> split(node *t, int x) {
     return {l, r};
 }
 
+pair<node*, node*> split(node *t, int k) { 
+    if (k == 0) return {nullptr, t};
+    node *l,*r;
+    if (k < sz(t->left) + 1) {
+        r = t;
+        auto [L, R] = split(t->left, k); 
+        r->left = R;
+        l = L;
+    } else {
+        l = t;
+        auto [L, R] = split(t->right, k - sz(t->left) - 1);
+        l->right = L;
+        r = R;
+    }
+    update(l); update(r);
+    return {l, r};
+}
+
 node* merge(node *l, node *r) {
     if (!l) return r;
     if (!r) return l;
@@ -56,6 +71,30 @@ node* merge(node *l, node *r) {
         t = r;
         t->left = merge(l, r->left);
     }
+    update(t);
+    return t;
+}
+
+void heapify(node *t) { 
+    if (!t) return;
+    node *mx = t;
+    if (t->left and t->left->pr > mx->pr) 
+        mx = t->left;
+    if (t->right and t->right->pr > mx->pr) 
+        mx = t->right;
+    if (mx != t) {
+        swap(t->pr, mx->pr);
+        heapify(mx);
+    }
+}
+
+node* build(vector<int> &a, int l, int r) { 
+    if (l > r) return nullptr;
+    int mid = (l + r) / 2;
+    node *t = new node(a[mid]);
+    t->left = build(a, l, mid - 1);
+    t->right = build(a, mid + 1, r);
+    heapify(t);
     update(t);
     return t;
 }
@@ -98,6 +137,14 @@ node* erase(node *t, int x) {
     return t;
 }
 
+int count(node *t, int x) { // #elem <= x
+    if (!t) return 0;
+    if (t->key <= x) 
+        return 1 + sz(t->left) + count(t->right, x);
+    else 
+        return count(t->left, x);
+}
+
 int get_kth(node *t, int k) {
     if (k == sz(t->left) + 1) return t->key;
     int cnt = sz(t->left) + 1;
@@ -106,39 +153,3 @@ int get_kth(node *t, int k) {
     else
         return get_kth(t->left, k);
 }
-
-int cnt(node *t, int x) {
-    if (!t) return 0;
-    if (t->key < x) 
-        return 1 + sz(t->left) + cnt(t->right, x);
-    else
-        return cnt(t->left, x);
-}
-
-int main() {
-    cin.tie(0) -> sync_with_stdio(0);
-    int q; cin >> q;
-    node *t = nullptr;
-    while(q--) {
-        char op; cin >> op;
-        if (op == 'I') {
-            int x; cin >> x;
-            if (not find(t, x)) {
-                t = insert(t, new node(x));
-            }
-        } else if (op == 'D') {
-            int x; cin >> x;
-            t = erase(t, x);
-        } else if (op == 'K') {
-            int k; cin >> k;
-            if (k > sz(t)) cout << "invalid\n";
-            else cout << get_kth(t, k) << '\n';
-        } else {
-            int x; cin >> x;
-            cout << cnt(t, x) << '\n';
-        }
-    }
-    return 0;
-}
-
-// https://www.spoj.com/problems/ORDERSET/

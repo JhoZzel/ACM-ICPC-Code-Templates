@@ -3,28 +3,23 @@
 using namespace std;
 using namespace __gnu_pbds; 
 
-#define dbg(x) cerr << #x << " = " << x << endl
-#define pv(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
-#define raya cerr << string(20, '=') << endl
-
-#define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
-#define sz(x) (int)x.size()
-#define eb emplace_back
-#define ff first
-#define ss second
-
 using ll = long long;
 using ordered_set = tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update>;
 
 
 int main() {
-    ordered_set ms;
-    ms.insert(120);
-    ms.insert(20);
-    ms.insert(10);
-    ms.insert(120);
-    cout << ms.order_of_key(11) << endl;
-    pv(ms);
+    ordered_set os;
+    os.insert(120);
+    os.insert(20);
+    os.insert(10);
+    os.insert(120);
+ 
+    // insert(x): Inserta el elemento x.
+    // erase(x): Borra el elemento x.
+    // find_by_order(k): Retorna un iterador al elemento en la posición k (0-indexado).
+    // order_of_key(x): Retorna cuántos elementos son estrictamente menores que x.
+
+    cout << os.order_of_key(11) << endl;
+
     return 0;
 }

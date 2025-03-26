@@ -2,7 +2,7 @@
 using namespace std;
 
 #define all(x) x.begin(), x.end()
-#define sz(x) ((int) x.size())
+#define sz(x) (int) x.size()
 
 const int N = 2e5 + 5;
 
@@ -18,11 +18,11 @@ vector<int> component;
 vector<int> G[2][N];
 vector<int> GG[N];
 
-void DFS(int id, int u) {
+void dfs(int id, int u) {
     vis[u] = id ^ 1;
     for (int w : G[id][u]) {
-        if (vis[w] == id ^ 1) continue;
-        DFS(id, w);
+        if (vis[w] == (id ^ 1)) continue;
+        dfs(id, w);
     }
     if (id == 0) order.push_back(u);
     else component.push_back(u);
@@ -31,19 +31,20 @@ void DFS(int id, int u) {
 void solve() {
     for (int i = 0; i < n; i++) {
         if (vis[i] == 1) continue;
-        DFS(0, i);
+        dfs(0, i);
     }
     reverse(all(order));
     nc = 0;
     vector<vector<int>> SCC;
     for (int i : order) {
         if (vis[i] == 0) continue;
-        DFS(1, i);
+        dfs(1, i);
         for (int u : component) color[u] = nc;
         SCC.push_back(component);
         component.clear();
         nc++;
     }
+
     for (int i = 0; i < n; i++) {
         for (int w : G[0][i]) {
             if (color[i] == color[w]) continue;

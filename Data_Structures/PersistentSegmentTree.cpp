@@ -38,15 +38,15 @@ int update(int id, int pos, int x, int tl = 0, int tr = m - 1) { // root id (ver
     if (tl == tr) return new_leaf(T[id] + x);
     int tm = (tl + tr) / 2;
     if (pos <= tm) return new_par(update(L[id], pos, x, tl, tm), R[id]);
-    else return new_par(L[id], update(R[id], pos, x, tm + 1, tr));
+    return new_par(L[id], update(R[id], pos, x, tm + 1, tr));
 }
 
-int query(int l_id, int r_id, int k, int tl = 0, int tr = m - 1) {
-    if (tl == tr) return tl;
+int query(int l_id, int r_id, int k, int tl = 0, int tr = m - 1) { // kth smallest 1-indexed
+    if (tl == tr) return tl; // k >= 1
     int tm = (tl + tr) / 2;
     int freq = T[L[r_id]] - T[L[l_id]];
     if (k <= freq) return query(L[l_id], L[r_id], k, tl, tm);
-    else return query(R[l_id], R[r_id], k - freq, tm + 1, tr);
+    return query(R[l_id], R[r_id], k - freq, tm + 1, tr);
 }
 
 int main() {
