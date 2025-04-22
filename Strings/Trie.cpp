@@ -1,53 +1,51 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e5 + 5;  
-const int LOG = 31;
-const int E = 2;
+const int N = 2e5 + 5;
+const int LOG = 30;
 
-struct Trie { 
-    int nodes = 0;
-    int trie[N * LOG][E];
+int nodes;
+int cnt[N * LOG];
+int trie[N * LOG][2];
 
-    void add(int x) { // Insert X in the trie
-        int r = 0;
-        for (int i = LOG - 1; i >= 0; i--) {
-            int ch = (x >> i) & 1;
-            if (!trie[r][ch]) trie[r][ch] = ++nodes;
-            r = trie[r][ch];
-        }
+void add(int x, int d) { // Insert X in the trie
+    int r = 0;
+    for (int i = LOG - 1; i >= 0; i--) {
+        int ch = (x >> i) & 1;
+        if (!trie[r][ch]) trie[r][ch] = ++nodes;
+        r = trie[r][ch];
+        cnt[r] += d;
     }
+}
 
-    int query(int x) { // max(X XOR Y) when Y is in the trie
-        int ans = 0;
-        int r = 0;
-        for (int i = LOG - 1; i >= 0; i--) {
-            int ch = (x >> i) & 1;
-            if (trie[r][1 - ch]) {
-                ans += (1ll << i);
-                r = trie[r][1 - ch];
-            } 
-            else r = trie[r][ch];
-        }
-        return ans;
+int query(int x) { // max(X XOR Y) when Y is in the trie
+    int ans = 0;
+    int r = 0;
+    for (int i = LOG - 1; i >= 0; i--) {
+        int ch = (x >> i) & 1;
+        if (cnt[trie[r][ch ^ 1]]) {
+            ans |= (1 << i);
+            r = trie[r][ch ^ 1];
+        } 
+        else r = trie[r][ch];
     }
-} T;
-
+    return ans;
+}
 
 int main() {
     cin.tie(0) -> sync_with_stdio(0);
-
-    int n; cin >> n;
-    int pre = 0;
-    int ans = 0;
-    T.add(0);
-    for (int i = 1; i <= n; i++) {
-        int x; cin >> x;
-        pre ^= x;
-        ans = max(ans, T.query(pre));
-        T.add(pre);
+    int q; cin >> q;
+    while(q--) {
+        char op; 
+        int x;
+        cin >> op >> x;
+        if (op == '+') {
+            add(x, 1);
+        } else if (op == '-') {
+            add(x, -1);
+        } else {
+            cout << query(x) << "\n";
+        }
     }
-    cout << ans << '\n';
-
     return 0;
 }

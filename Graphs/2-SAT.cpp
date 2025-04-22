@@ -1,17 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define dbg(x) cerr << #x << " = " << x << endl
-#define pv(x) cerr << #x << "[]: "; for (auto e : x) cerr << e << " "; cerr << endl
-#define raya cerr << string(20, '=') << endl
-
-#define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
-#define sz(x) (int)x.size()
-#define eb emplace_back
-#define ff first
-#define ss second
-
 struct SAT { // 0-indexed
     int n;
     vector<bool> vis;
@@ -86,25 +75,27 @@ int main() {
     cin >> n >> m;
     SAT Solver(n);
     for (int i = 0; i < m; i++) {
-        int v[3] = {};
-        for (int j = 0; j < 3; j++) {
-            int u;
-            char c;
-            cin >> u >> c;
-            u--;
-            if (c == 'R') u *= 2;
-            else u = 2 * u + 1;
-            v[j] = u;
+        int u,v,w;
+        cin >> u >> v >> w;
+        u--; v--;
+        if (w == 1) {
+            Solver.add_edge(2 * u, 2 * v + 1);
+            Solver.add_edge(2 * u + 1, 2 * v);
+        } else {
+            Solver.add_edge(2 * u, 2 * v);
+            Solver.add_edge(2 * u + 1, 2 * v + 1);
         }
-        Solver.add_edge(v[0], v[1]);   
-        Solver.add_edge(v[1], v[2]);   
-        Solver.add_edge(v[0], v[2]);   
     }
 
     vector<int> res = Solver.solve();
-    if (res.empty()) cout << "-1\n";
+    if (res.empty()) cout << "Impossible\n";
     else {
-        for (int x : res) cout << (x ? "R" : "B");
+        vector<int> ans;
+        for (int i = 0; i < n; i++) {
+            if (res[i]) ans.push_back(i);
+        }
+        cout << ans.size() << "\n";
+        for (int u : ans) cout << ++u << " ";
         cout << '\n';
     }
     return 0;
