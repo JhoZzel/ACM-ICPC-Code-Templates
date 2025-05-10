@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
 using namespace std;
 
 const int N = 1e5 + 5;
@@ -17,14 +16,14 @@ bool bridge[N];
 vector<pair<int,int>> G[N];
 vector<int> GG[N];
 
-void DFS(int u, int par = -1) {
+void dfs(int u, int par = -1) {
     vis[u] = true;
     low[u] = tin[u] = timer++;
     for (auto [w, e] : G[u]) {
         if (w == par) continue;
         if (vis[w]) low[u] = min(low[u], tin[w]);
         else {
-            DFS(w,u);
+            dfs(w,u);
             low[u] = min(low[u], low[w]);
             if (low[w] > tin[u]) {
                 bridge[e] = true;
@@ -34,7 +33,7 @@ void DFS(int u, int par = -1) {
 }
 
 void solve() {
-    DFS(0);
+    dfs(0);
     fill(vis, vis + n, false);
     // We color the nodes for the same component
     for (int i = 0; i < n; i++) {
@@ -66,7 +65,7 @@ void solve() {
 }
 
 int main() {
-    fast_io;
+    cin.tie(0) -> sync_with_stdio(0);
     cin >> n >> m;
     for (int i = 0; i < m; i++) {
         int u, v;

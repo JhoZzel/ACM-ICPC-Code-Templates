@@ -51,6 +51,7 @@ void build(int id = 1, int tl = 0, int tr = n - 1) {
         T[id] = max(T[2 * id], T[2 * id + 1]);
     }
 }
+
 void update(int pos, int x, int id = 1, int tl = 0, int tr = n - 1) {
     if (tl == tr) T[id] = x;
     else {
