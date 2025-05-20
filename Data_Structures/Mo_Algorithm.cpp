@@ -9,7 +9,7 @@ struct Query {
     bool operator < (const Query other) const {
         int block_a = l / B, block_b = other.l / B;
         if (block_a != block_b) return block_a < block_b;
-        return ((block_a & 1) ? (r > other.r) : (r < other.r)); // Hilbert-like optimization
+        return ((block_a & 1) ? (r > other.r) : (r < other.r)); 
     }
 };
 
