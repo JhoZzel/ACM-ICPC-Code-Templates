@@ -11,7 +11,6 @@ int a[N];
 int pre[N];
 ll dp[N][N];
 
-// C(a,c) + C(b,d) <= C(a,d) + C(b,c)
 // opt(i - 1, k) <= opt(i, k)
 ll cost(int i, int j) { 
     ll sa = pre[j] - pre[i - 1];
