@@ -18,7 +18,7 @@ vector<int> mo_algorithm(vector<Query> Q) {
 
     sort(Q.begin(), Q.end());
 
-    int cur_l = 1, cur_r = 0;
+    int cur_l = 0, cur_r = -1; // 0-indexed
     for (Query q : Q) {
         while (cur_l > q.l) {
             cur_l--;
