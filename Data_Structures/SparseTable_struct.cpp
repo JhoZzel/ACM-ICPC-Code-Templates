@@ -2,7 +2,6 @@
 using namespace std;
 
 struct SparseTable {
-    int neutro = INT_MAX;
     int f(int a, int b) { return min(a, b); }
     
     vector<vector<int>> st;
@@ -20,10 +19,9 @@ struct SparseTable {
     }
     
     int query(int l, int r) {
-        if (l > r) return neutro;
         int k = __lg(r - l + 1);
         int d = (1 << k);
-        return min(st[l][k], st[r - d + 1][k]);
+        return f(st[l][k], st[r - d + 1][k]);
     }
 
     /*int query(int l, int r) {

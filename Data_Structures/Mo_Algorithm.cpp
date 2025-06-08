@@ -2,6 +2,7 @@ void remove(idx);  // TODO: remove value at idx from data structure
 void add(idx);     // TODO: add value at idx from data structure
 int get_answer();  // TODO: extract the current answer of the data structure
 
+const int N = 1e5 + 5;
 const int B = 317;
 
 struct Query {
@@ -14,7 +15,7 @@ struct Query {
 };
 
 vector<int> mo_algorithm(vector<Query> Q) {
-    vector<int> ans(size(Q));
+    vector<int> ans(Q.size());
 
     sort(Q.begin(), Q.end());
 
@@ -38,5 +39,6 @@ vector<int> mo_algorithm(vector<Query> Q) {
         }
         ans[q.idx] = get_answer();
     }
+
     return ans;
 }
