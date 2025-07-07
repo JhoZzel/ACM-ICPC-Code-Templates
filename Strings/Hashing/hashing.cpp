@@ -11,7 +11,7 @@ using namespace std;
 #define eb emplace_back
 #define ff first
 #define ss second
-
+
 using ll = long long;
 using pii = pair<int,int>;
 
@@ -19,7 +19,11 @@ ostream& operator<<(ostream& os, const pii& p) {
     return os << p.ff << " " << p.ss;
 }
 
-mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+ll random(ll l, ll r) {
+    return uniform_int_distribution<ll>(l, r)(rng);
+}
 
 const int MOD = 1e9 + 9;
 
