@@ -1,70 +1,89 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 const int N = 2e5 + 5;
-
+ 
 int n,m;
 int in[N];
 int out[N];
-vector<int> G[N];
-vector<int> path;
+vector<int> path, edges;
+vector<pair<int,int>> G[N];
+
+void clean() {
+    for (int i = 0; i < n; i++) {
+        in[i] = out[i] = 0;
+        G[i].clear();
+    }
+    path.clear();
+    edges.clear();
+}
 
 void dfs(int u) { // Hierholzer
     while(!G[u].empty()) {
-        int v = G[u].back();
+        auto [v, id] = G[u].back();
         G[u].pop_back();
         dfs(v);
+        edges.emplace_back(id);
     }
     path.push_back(u);
 }
 
 void solve() {
-    int s = 0, t = 0;
-    int st = 0;
-
+    int start = 0, end = 0;
     for (int i = 0; i < n; i++) {
-        if (out[i] == in[i] + 1) s++, st = i;
-        else if (in[i] == out[i] + 1) t++;
+        if (out[i] == in[i] + 1) start++;
+        else if (in[i] == out[i] + 1) end++;
         else if (in[i] != out[i]) return;
     }
-
-    if (!(s == 1 and t == 1) and !(s == 0 and t == 0)) return;
-
+    
+    int st = 0;
+    if (start == 1 and end == 1) {
+        for (int i = 0; i < n; i++) if (out[i] == in[i] + 1) st = i;
+    } else if (start == 0 and end == 0) {
+        for (int i = 0; i < n; i++) if (out[i]) st = i;
+    } else {
+        for (int i = 0; i < n; i++) {
+            if (in[i] != out[i]) return;
+            if (in[i] and out[i]) st = i;
+        }
+    }
+    
     dfs(st);
 
-    reverse(path.begin(), path.end());
+    if ((int)path.size() != m + 1) path.clear();
 
-    if ((int)path.size() != m + 1) {
-        path.clear();
-    }
+    reverse(path.begin(), path.end());
+    reverse(edges.begin(), edges.end());
 }
 
 int main() {
     cin.tie(0) -> sync_with_stdio(0);
-    while(cin >> n >> m) {
-        if (n == 0 and m == 0) break;
+    int t; cin >> t;
+    while(t--) {
+        cin >> n >> m;
         for (int i = 0; i < m; i++) {
             int u,v;
             cin >> u >> v;
-            G[u].emplace_back(v);
+            G[u].emplace_back(v, i);
             in[v] += 1;
             out[u] += 1;
         }
-
+        
         solve();
-
-        if (path.empty()) cout << "Impossible\n";
+        
+        if (path.empty()) cout << "No\n";
         else {
+            cout << "Yes\n";
             for (int u : path) cout << u << ' ';
-            cout << "\n";
+            cout << '\n';
+            for (int i : edges) cout << i << ' ';
+            cout << '\n';
         }
-        for (int i = 0; i < n; i++) {
-            in[i] = out[i] = 0;
-            G[i].clear();
-        }
-        path.clear();
+
+        clean();
     }
+    
     return 0;
 }
 
-// https://open.kattis.com/submissions/17640512
+// https://judge.yosupo.jp/submission/298270
