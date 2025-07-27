@@ -1,59 +1,61 @@
 #include <bits/stdc++.h>
-#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
 using namespace std;
 
-const int INF = 2e9 + 5;
-const int N = 100 + 5;
+using ll = long long;
 
-int n;
-int m;
-int dis[N][N];
+const int N = 500 + 5;
+const ll INF = 1e18 + 5;
 
-int main() {
-    fast_io;
-    cin >> n >> m;
-    
-    // Initialize dis matrix
+int n,m;
+ll dis[N][N];
+
+void update(int u, int v, int w) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            if (i == j) dis[i][j] = 0;
-            else dis[i][j] = INF;
+            ll d = dis[i][u] + w + dis[v][j];
+            if (d < dis[i][j]) {
+                dis[i][j] = d; 
+            }
         }
     }
+}
 
-    // Input
+int main() {
+    cin.tie(0) -> sync_with_stdio(0);
+    
+    for (int i = 0; i < N; i++) 
+        for (int j = 0; j < N; j++) 
+            dis[i][j] = (i == j) ? 0 : INF;
+
+
+    cin >> n >> m;
     for (int i = 0; i < m; i++) {
         int u,v,w;
         cin >> u >> v >> w;
-        dis[u][v] = min(dis[u][v], w);
+        u--; v--;
+        ll d = min<ll>(dis[u][v], w);
+        dis[u][v] = dis[v][u] = d;
     }
 
     // Floyd Warshall
     for (int k = 0; k < n; k++) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++){
-                int d = dis[i][k] + dis[k][j];
-                if (dis[i][k] == INF or dis[k][j] == INF) continue;
+                ll d = dis[i][k] + dis[k][j];
                 if (d < dis[i][j]) {
                     dis[i][j] = d;
                 }
             }
         }
     }
- 
-    for (int i = 0; i < n; i++) {
-        if (dis[i][i] < 0) {
-            cout << "NEGATIVE CYCLE\n";
-            return 0;
-        }
-    }
     
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (dis[i][j] < INF) cout << dis[i][j] << " ";
-            else cout << "INF ";
-        }
-        cout << "\n";
+    int q; cin >> q;
+    while(q--) {
+        int u,v,w;
+        cin >> u >> v >> w;
+        u--; v--;
+        update(u, v, w);
+        update(v, u, w);
     }
 
     return 0;
