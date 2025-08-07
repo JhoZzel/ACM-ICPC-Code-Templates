@@ -6,16 +6,14 @@ using namespace std;
 
 using ll = long long;
 
-ll exGCD(ll a, ll b, ll &x_0, ll &y_0) {
+ll exGCD(ll a, ll b, ll &x0, ll &y0) {
     if (b == 0) { 
-        x_0 = 1;
-        y_0 = 0;
+        x0 = 1;
+        y0 = 0;
         return a;
     }  
-    ll x_1, y_1;
-    ll g = exGCD(b, a % b, x_1, y_1);
-    x_0 = y_1;
-    y_0 = x_1 - (a / b) * y_1;
+    ll x1, y1, g = exGCD(b, a % b, x1, y1);
+    x0 = y1; y0 = x1 - (a / b) * y1;
     return g;
 }
 
