@@ -58,7 +58,7 @@ void dfs(int u, int p = 0) {
 }
  
 void update(int pos, int x, int id = 1, int tl = 0, int tr = n - 1) {
-    if (tl == tr) T[id] = x;
+    if (tl == tr) T[id] = node(x);
     else {
         int tm = (tl + tr) / 2;
         if (pos <= tm) 
