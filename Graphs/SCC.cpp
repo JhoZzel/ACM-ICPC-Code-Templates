@@ -1,14 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define all(x) x.begin(), x.end()
-#define sz(x) (int) x.size()
-
 const int N = 2e5 + 5;
 
-int n;
-int m;
-int nc;
+int n,n,nc;
 bool vis[N];
 int in[N];
 int color[N];
@@ -33,7 +28,7 @@ void solve() {
         if (vis[i] == 1) continue;
         dfs(0, i);
     }
-    reverse(all(order));
+    reverse(order.begin(), order.end());
     nc = 0;
     vector<vector<int>> SCC;
     for (int i : order) {

@@ -163,3 +163,12 @@ int get_kth(node *t, int k) {
     else
         return get_kth(t->left, k);
 }
+
+int get_pos(node *t) { 
+    int res = sz(t->left) + 1;
+    while (t->par) {
+        if (t->par->right == t) res += sz(t->par->left) + 1;
+        t = t->par;
+    }
+    return res;
+}
