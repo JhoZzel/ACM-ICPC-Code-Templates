@@ -27,7 +27,7 @@ struct FenwickTree { // 0-indexed
         return sa;
     }
     int query(int l, int r) {
-        return sum(r) - sum(l - 1);
+        retur sum(r) - sum(l - 1);
     }
 };
 

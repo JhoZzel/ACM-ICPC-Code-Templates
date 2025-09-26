@@ -1,12 +1,15 @@
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 int random(int l, int r) {
 	return uniform_int_distribution<int>(l, r)(rng);
 }
 
 struct node {
-    int key,pr,cnt;
-    node *left, *right;
+    int key;
+    int pr;
+    int cnt;
+    node *left;
+    node *right;
     node(int x) {
         key = x;
         cnt = 1;
@@ -16,7 +19,7 @@ struct node {
 };
 
 int sz(node *t) {
-    return (t ? t->cnt : 0);
+    return t ? t->cnt : 0;
 }
 
 void update(node *t) {
@@ -99,6 +102,13 @@ node* build(vector<int> &a, int l, int r) {
     return t;
 }
 
+void destroy(node *t) {
+    if (!t) return;
+    destroy(t->left);
+    destroy(t->right);
+    delete t;
+}
+
 node* find(node *t, int x) {
     if (!t) return nullptr;
     if (t->key == x) 
@@ -146,8 +156,8 @@ int count(node *t, int x) { // #elem <= x
 }
 
 int get_kth(node *t, int k) {
-    if (k == sz(t->left) + 1) return t->key;
     int cnt = sz(t->left) + 1;
+    if (k == cnt) return t->key;
     if (k > cnt) 
         return get_kth(t->right, k - cnt);
     else
