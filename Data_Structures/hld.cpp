@@ -39,7 +39,7 @@ void pre_dfs(int u, int p = 0) {
     if (p == G[u][0]) swap(G[u][0], G[u].back());
     for (int &v : G[u]) if (v != p) {
         pre_dfs(v, u);
-        sz[u] += v;
+        sz[u] += sz[v];
         if (sz[v] > sz[G[u][0]]) {
             swap(v, G[u][0]);
         }

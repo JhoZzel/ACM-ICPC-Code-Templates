@@ -22,7 +22,7 @@ struct node {
 	}
 };
 
-struct DisjointST{
+struct DisjointST {
     vector<node> dp[32];
 
     DisjointST() {}
