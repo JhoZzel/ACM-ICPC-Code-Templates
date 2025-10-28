@@ -25,6 +25,7 @@ void fft(vector<cd> &a, bool inv) {
             root[2 * i + 1] = root[i] * w;
         }
     }
+
     for (int len = 2; len <= n; len <<= 1) {
         for (int i = 0; i < n; i += len) {
             for (int j = 0; j < len / 2; j++) {
@@ -35,24 +36,21 @@ void fft(vector<cd> &a, bool inv) {
             }
         }
     }
+
     if (inv) for (cd &x : a) x /= n;
 }
 
 vector<ll> multiply(vector<int> &a, vector<int> &b) {
     int n = 1;
     while(n < sz(a) + sz(b) - 1) n <<= 1;
-    vector<cd> aa(n), bb(n);
-    for (int i = 0; i < sz(a); i++) aa[i] = cd(a[i], 0);
-    for (int i = 0; i < sz(b); i++) bb[i] = cd(b[i], 0);
-    fft(aa, 0);
-    fft(bb, 0);
-    for (int i = 0; i < n; i++) aa[i] *= bb[i];
-    fft(aa, 1);
+    vector<cd> fa(n), fb(n);
+    for (int i = 0; i < sz(a); i++) fa[i] = cd(a[i], 0);
+    for (int i = 0; i < sz(b); i++) fb[i] = cd(b[i], 0);
+    fft(fa, 0);
+    fft(fb, 0);
+    for (int i = 0; i < n; i++) fa[i] *= fb[i];
+    fft(fa, 1);
     vector<ll> c(n);
-    for (int i = 0; i < n; i++) {
-        c[i] = round(aa[i].real());
-    }
+    for (int i = 0; i < n; i++) c[i] = round(fa[i].real());
     return c;
 }
-
-
