@@ -1,23 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e5 + 5;
+#define all(x) x.begin(), x.end()
 
 // LCP between suf[i] and suf[i + 1]    suf[n] = 0
 vector<int> lcp_array(string &s, vector<int> &suf) { 
 	const int n = s.size();
-	vector<int> rank(n);
-	for(int i = 0; i < n; i++) rank[suf[i]] = i;
+	vector<int> r(n);
+	for (int i = 0; i < n; i++) r[suf[i]] = i;
 	int k = 0;
 	vector<int> lcp(n);
 	for (int i = 0; i < n; i++){
-		if (rank[i] + 1 == n){
+		if (r[i] + 1 == n){
 			k = 0;
 			continue;
 		}
-		int j = suf[rank[i] + 1];
+		int j = suf[r[i] + 1];
 		while (i + k < n and j + k < n and s[i + k] == s[j + k]) k++;
-		lcp[rank[i]] = k;
+		lcp[r[i]] = k;
         if (k) k--;
 	}
 	return lcp;
@@ -25,10 +25,10 @@ vector<int> lcp_array(string &s, vector<int> &suf) {
 
 vector<int> suffix_array(string &s) {
 	const int n = s.size();
-	vector<int> a(n); 
-	vector<int> c(n);
-	iota(a.begin(), a.end(), 0);
-	sort(a.begin(), a.end(), [&] (int i, int j){
+
+	vector<int> a(n), c(n); 
+	iota(all(a), 0);
+	sort(all(a), [&] (int i, int j){
 		return s[i] < s[j];
 	});
 
@@ -38,9 +38,7 @@ vector<int> suffix_array(string &s) {
 	}
 
 	int len = 1;
-	vector<int> head(n);
-	vector<int> nc(n);
-	vector<int> sbs(n);
+	vector<int> head(n), nc(n), sbs(n);
 	
     while (len < n){
 		for (int i = 0; i < n; i++) sbs[i] = (a[i] - len + n) % n;
