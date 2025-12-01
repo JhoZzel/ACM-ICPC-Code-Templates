@@ -1,7 +1,8 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Misra-Gries Algorithm
+// 
 
-#define all(x) x.begin(), x.end()
+// Identifica los elementos que aparecen mas de 
+// ceil(n / k) veces
 
 const int K = 4;
 
@@ -52,7 +53,7 @@ node T[N];
 node dp[22][N];
 vector<int> pos[N];
 
-void build() {
+void build() { // O(NlogN) disjoint sparse table
     int i, c, h, l;
     for (int i = 0; i < n; i++) T[i] = node(a[i]);
     for (h = 0; h <= __lg(n); h++){
@@ -67,7 +68,7 @@ void build() {
     }
 }
 
-node query(int l, int r) {
+node query(int l, int r) { // O(1)
     int h = __lg(l ^ (r + 1));
     return dp[h][l] + dp[h][r + 1];
 }
