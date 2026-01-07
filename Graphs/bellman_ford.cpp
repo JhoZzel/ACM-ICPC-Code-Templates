@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Bellman Ford
+// 
 
 const int INF = 1e9 + 5;
 const int N = 1e3 + 5;
@@ -11,7 +11,7 @@ vector<tuple<int,int,int>> edges;
 bool bellman_ford(int s0) {
     fill(d, d + n, INF);
     d[s0] = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n - 1; i++) {
         for (auto [u, v, w] : edges) {
             if (d[u] == INF) continue;
             if (d[u] + w < d[v]) {
@@ -27,25 +27,3 @@ bool bellman_ford(int s0) {
     }
     return true;
 }
-
-int main() {
-    cin.tie(0)->sync_with_stdio(0);
-
-    int s;
-    cin >> n >> m >> s;
-    for (int i = 0; i < m; i++) {
-        int u,v,w;
-        cin >> u >> v >> w;
-        edges.emplace_back(u,v,w);
-    }
-    if (not bellman_ford(s)) {
-        cout << "NEGATIVE CYCLE\n";
-        return 0;
-    }
-    for (int i = 0; i < n; i++) {
-        if (d[i] < INF) cout << d[i] << "\n";
-        else cout << "INF\n";
-    }
-    return 0;
-}
-

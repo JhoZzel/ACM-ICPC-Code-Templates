@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Articulations
+//
 
 const int N = 1e5 + 5;
 const int INF = 1e9;

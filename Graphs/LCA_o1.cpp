@@ -1,3 +1,6 @@
+// LCA O(1)
+//
+
 int st[2 * N][LOG];
 vector<int> euler;
 

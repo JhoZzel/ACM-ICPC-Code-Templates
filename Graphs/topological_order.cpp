@@ -1,9 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-int n,m;
-vector<vector<int>> ady;
-vector<int> in;
+// Topological order
+//
 
 vector<int> top_order() {
     vector<int> order;
@@ -21,19 +17,4 @@ vector<int> top_order() {
         order.push_back(u);
     }
     return ((int)order.size() < n) ? vector<int>() : order;
-}
-
-int main() {
-    cin >> n >> m;
-    ady.resize(n);
-    in.resize(n);
-    for (int i = 0; i < m; i++) {
-        int u, v;
-        cin >> u >> v;
-        ady[u].push_back(v);
-        in[v]++;
-    }
-    vector<int> order = top_order();
-    for (int e : order) cout << e << " ";
-    return 0;
 }

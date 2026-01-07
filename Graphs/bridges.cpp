@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Bridges
+// 
 
 const int N = 1e5 + 5;
 

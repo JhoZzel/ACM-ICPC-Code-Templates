@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// SCC
+//
 
 const int N = 5e5 + 5;
 

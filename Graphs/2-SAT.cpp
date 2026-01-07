@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// 2 SAT
+//
 
 struct SAT { // 0-indexed
     int n;

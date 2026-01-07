@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Eulerian undirected path
+//
  
 const int N = 2e5 + 5;
  
@@ -8,16 +8,6 @@ int deg[N];
 bool used[N];
 vector<int> path, edges;
 vector<pair<int,int>> G[N];
-
-void clean() {
-    for (int i = 0; i < n; i++) {
-        deg[i] = 0;
-        G[i].clear();
-    }
-    fill(used, used + m, 0);
-    path.clear();
-    edges.clear();
-}
 
 void dfs(int u) { // Hierholzer
     while(!G[u].empty()) {
@@ -85,5 +75,3 @@ int main() {
     
     return 0;
 }
-
-// https://judge.yosupo.jp/submission/298021
