@@ -1,6 +1,12 @@
+// Mo on Trees
+//
+
+// Values on the vertex 
+// Be careful with the size of block 2 * N
+
 #define all(x) x.begin(), x.end()
 
-const int B = 448; // fix -> 2 * MAX_N
+const int B = 317; 
 
 struct Query {
     int l, r, z, idx;
@@ -14,32 +20,7 @@ struct Query {
 const int N = B * B; 
 const int LOG = 20; 
 
-void dfs(int u, int p = 0) {
-    tin[u] = timer++;
-    up[u][0] = p;
-    for (int j = 1; j < LOG; j++) {
-        up[u][j] = up[up[u][j - 1]][j - 1];
-    }
-    for (int v : G[u]) if (v != p) {
-        dfs(v, u);
-    }
-    tout[u] = timer++;
-}
-
-bool is_ancestor(int u, int v) {
-    return tin[u] <= tin[v] and tout[u] >= tout[v];
-}
-
-int lca(int u, int v) {
-    if (is_ancestor(u, v)) return u;
-    if (is_ancestor(v, u)) return v;
-    for (int j = LOG - 1; j >= 0; j--) {
-        if (!is_ancestor(up[u][j], v)) {
-            u = up[u][j];
-        }
-    }
-    return up[u][0];
-}
+// Building lca - binary lifting ...
 
 void update(int x, int del) {
     

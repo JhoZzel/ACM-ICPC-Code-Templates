@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Matrix 
+//
 
 using ll = long long;
 
@@ -64,8 +64,7 @@ void apply(Matrix M, ll &x, ll &y) {
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(0) -> sync_with_stdio(0);
 
     Matrix A;
     A[0][0] = 1; A[0][1] = 1;
@@ -73,10 +72,10 @@ int main() {
 
     ll n; cin >> n;
     ll x = 1, y = 0;
+
     apply(bpow(A, n), x, y);
+
     cout << y << "\n";
 
     return 0;
 }
-
-// https://cses.fi/problemset/result/13314961/

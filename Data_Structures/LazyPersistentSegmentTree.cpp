@@ -1,7 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
+// Lazy Persistent Segment Tree
+//
 
 const int N = 1e5 + 6;
 const int NODES = 300 * N;
@@ -45,40 +43,40 @@ int build(int tl = 1, int tr = n) {
     return new_par(build(tl, tm), build(tm + 1, tr));
 }
 
-void push(int cur, int tl, int tr) {
-    if (!lazy[cur]) return;
+int push(int old, int tl, int tr, int x = 0) {
+    int cur = copy(old);
+    lazy[cur] += x;
+    
+    if (!lazy[cur]) return cur;
 
     int len = tr - tl + 1;
     T[cur] += lazy[cur] * len;
     
     if (tl != tr) {
-        L[cur] = copy(L[cur]);
-        R[cur] = copy(R[cur]);
+        L[cur] = copy(L[old]);
+        R[cur] = copy(R[old]);
         lazy[L[cur]] += lazy[cur];
         lazy[R[cur]] += lazy[cur];
     }
     
     lazy[cur] = 0;
+    
+    return cur;
 }
 
 int update(int old, int l, int r, int x, int tl = 1, int tr = n) { 
-    push(old, tl, tr);
-    if (l > r) return old;
-    int cur = copy(old);
-    if (tl == l and tr == r) {
-        lazy[cur] += x;
-        push(cur, tl, tr);
-    } else {
-        int tm = (tl + tr) / 2;
-        L[cur] = update(L[cur], l, min(tm, r), x, tl, tm);
-        R[cur] = update(R[cur], max(tm + 1, l), r, x, tm + 1, tr);
-        T[cur] = T[L[cur]] + T[R[cur]];
-    }   
+    int cur = push(old, tl, tr);
+    if (l > r) return cur;
+    if (tl == l and tr == r) return push(cur, tl, tr, x);
+    int tm = (tl + tr) / 2;
+    L[cur] = update(L[cur], l, min(tm, r), x, tl, tm);
+    R[cur] = update(R[cur], max(tm + 1, l), r, x, tm + 1, tr);
+    T[cur] = T[L[cur]] + T[R[cur]];
     return cur;
 }
 
 ll query(int cur, int l, int r, int tl = 1, int tr = n) { 
-    push(cur, tl, tr);
+    cur = push(cur, tl, tr);
     if (l > r) return 0ll;
     if (tl == l and tr == r) return T[cur];
     int tm = (tl + tr) / 2;

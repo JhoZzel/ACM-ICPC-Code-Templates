@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// RMQ O(1)
+// 
 
 struct SparseTable {
     vector<vector<int>> st;
@@ -86,23 +86,3 @@ struct RMQ {
         }
     }
 };
-
-int main() {
-    cin.tie(0) -> sync_with_stdio(0);
-
-    int n,q;
-    cin >> n >> q;
-    vector<int> a(n);
-    for (int &e : a) cin >> e;
-
-    RMQ rmq(a);
-    while(q--) {
-        int l,r;
-        cin >> l >> r;
-        r--;
-        cout << rmq.query(l, r) << "\n";
-    }
-
-    return 0;
-}
-// https://judge.yosupo.jp/submission/326149

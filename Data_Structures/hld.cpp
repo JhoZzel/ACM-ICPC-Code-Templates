@@ -1,6 +1,7 @@
-#include <bits/stdc++.h>
-using namespace std;
- 
+// HLD conmutative
+//
+// O(log^2 N)
+
 using ll = long long;
  
 const int N = 2e5 + 5;

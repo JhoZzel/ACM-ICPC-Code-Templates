@@ -1,7 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
+// Linear sieve
+//
 
 const int MAX = 1e7 + 5;
 
@@ -30,18 +28,4 @@ vector<pair<int,int>> get_fact(int x) {
         f.emplace_back(p, e);
     }      
     return f;
-}
-
-int main() {
-    cin.tie(0) -> sync_with_stdio(0);
-    sieve();
-    int q; cin >> q;
-    while (q--) {
-        int n; cin >> n;
-        vector<pair<int,int>> f = get_fact(n);
-        for (auto [p, e] : f) {
-            cout << p << " ^ " << e << endl;
-        }
-    }
-    return 0;
 }

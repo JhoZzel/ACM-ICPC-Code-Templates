@@ -1,8 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-#define sz(x) (int)x.size()
-#define all(x) x.begin(), x.end()
+// Pollard rho
+//
 
 using ll = long long;
 using ull = unsigned long long;
@@ -68,15 +65,4 @@ vector<ull> divisors(ull n) {
         }
     }
     return D;
-}
-
-int main() {
-    ull n;
-	while(cin >> n) {
-		vector<ull> D = divisors(n);
-        cout << "n = " << n << '\n';
-        for (auto d : D) cout << d << " ";
-        cout << '\n';
-	}
-	return 0;
 }

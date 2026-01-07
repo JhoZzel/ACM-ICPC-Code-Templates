@@ -1,7 +1,6 @@
-#include <bits/stdc++.h>
- 
-using namespace std;
- 
+// Xor Basis
+// 
+
 const int LOG = 30;
 
 int sz;
@@ -18,26 +17,3 @@ void insert(int mask) {
         mask ^= B[i];
     }
 }
-
-void clean() {
-    sz = 0;
-    memset(B, 0, sizeof(B));
-}
-
-int main() {
-    cin.tie(0) -> sync_with_stdio(0);
-    int t; cin >> t;
-    while(t--) {
-        int d,m;
-        cin >> d >> m;
-        for (int i = 0; i < m; i++) {
-            int x; cin >> x;
-            insert(x);
-        }
-        cout << (1 << (d - sz)) << '\n';
-        clean();
-    }
-	return 0;
-}
-
-// https://www.codechef.com/problems/XORCMPNT

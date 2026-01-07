@@ -1,6 +1,7 @@
-#include <bits/stdc++.h>
-using namespace std;
- 
+// HLD f one way
+//
+// O(log^2 N)
+
 using ll = long long;
  
 const int N = 2e5 + 5;
@@ -145,6 +146,3 @@ int main() {
  
     return 0;
 }
-
-// https://judge.yosupo.jp/submission/280946
-// time: 1307ms

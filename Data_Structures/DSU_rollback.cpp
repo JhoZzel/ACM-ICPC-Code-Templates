@@ -1,12 +1,12 @@
-#include <bits/stdc++.h>
-using namespace std;
+// DSU - rollback
+//
 
 const int N = 2e5 + 5;
 
 int n,q;
 int nComp;
-int par[N];
 int sz[N];
+int par[N];
 
 stack<int> checkpoints;
 stack<vector<pair<int&, int>>> history;

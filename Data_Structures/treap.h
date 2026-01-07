@@ -1,3 +1,6 @@
+// Treap
+//
+
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 int random(int l, int r) {

@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Persistent Treap
+//
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
@@ -39,8 +39,6 @@ struct node {
 const int N = 1e4 + 4;
 
 node *root[N];
-
-// Treap
 
 int sz(node *t) {
     return (t ? t->cnt : 0);
@@ -173,5 +171,3 @@ int main() {
     }
     return 0;
 }
-
-// https://vn.spoj.com/problems/GENETICS/

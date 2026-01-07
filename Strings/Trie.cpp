@@ -1,51 +1,53 @@
 #include <bits/stdc++.h>
+#define fast_io ios_base::sync_with_stdio(0); cin.tie(0)
 using namespace std;
+typedef long long ll;
 
-const int N = 2e5 + 5;
-const int LOG = 30;
+const int LOG = 60;
+const int N = 1e5 + 5;  
 
-int nodes;
-int cnt[N * LOG];
-int trie[N * LOG][2];
+struct Trie{ 
+    int nodes = 0;
+    vector<vector<int>> trie;
 
-void add(int x, int d) { // Insert X in the trie
-    int r = 0;
-    for (int i = LOG - 1; i >= 0; i--) {
-        int ch = (x >> i) & 1;
-        if (!trie[r][ch]) trie[r][ch] = ++nodes;
-        r = trie[r][ch];
-        cnt[r] += d;
-    }
-}
+    Trie() : trie(N * LOG, vector<int>(2, 0)) {}
+    Trie(int n) : trie((n + 5) * LOG, vector<int>(2, 0)) {}
 
-int query(int x) { // max(X XOR Y) when Y is in the trie
-    int ans = 0;
-    int r = 0;
-    for (int i = LOG - 1; i >= 0; i--) {
-        int ch = (x >> i) & 1;
-        if (cnt[trie[r][ch ^ 1]]) {
-            ans |= (1 << i);
-            r = trie[r][ch ^ 1];
-        } 
-        else r = trie[r][ch];
-    }
-    return ans;
-}
-
-int main() {
-    cin.tie(0) -> sync_with_stdio(0);
-    int q; cin >> q;
-    while(q--) {
-        char op; 
-        int x;
-        cin >> op >> x;
-        if (op == '+') {
-            add(x, 1);
-        } else if (op == '-') {
-            add(x, -1);
-        } else {
-            cout << query(x) << "\n";
+    void add(ll x) { // Insert X in the trie
+        int r = 0;
+        for (int i = LOG; i >= 0; i--) {
+            int ch = (x >> i) & 1;
+            if (!trie[r][ch]) trie[r][ch] = ++nodes;
+            r = trie[r][ch];
         }
     }
+
+    ll query(ll x) { // max(X XOR Y) when Y is in the trie
+        ll ans = 0;
+        int r = 0;
+        for (int i = LOG; i >= 0; i--) {
+            int ch = (x >> i) & 1;
+            if (trie[r][1 - ch]) {
+                ans += (1ll << i);
+                r = trie[r][1 - ch];
+            } 
+            else r = trie[r][ch];
+        }
+        return ans;
+    }
+};
+
+int main() {
+    Trie t;
+    t.add(0);
+    t.add(5);
+    t.add(15);
+    t.add(7);
+    
+    ll x;
+    while(cin >> x) {
+        cout << t.query(x) << endl;
+    }
+    
     return 0;
 }

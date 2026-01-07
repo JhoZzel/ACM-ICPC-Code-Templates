@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Small to Large
+//
 
 using ll = long long;
 
@@ -21,7 +21,7 @@ int get(int u) {
 void merge(int u, int v) {
     u = get(u); v = get(v);
     if (mp[u].size() > mp[v].size()) swap(u, v);
-    for (auto [c, f] : mp[u]) { // u -> v
+    for (auto [c, f] : mp[u]) { 
         mp[v][c] += f;
         if (mp[v][c] == mx[v]) sum[v] += c;
         else if (mp[v][c] > mx[v]) {
@@ -42,9 +42,12 @@ void dfs(int u, int p = 0) {
     ans[u] = sum[get(u)];
 }
 
+
 int main() {
     cin.tie(0) -> sync_with_stdio(0);
+
     cin >> n;
+    // Initialize...
     for (int i = 0; i < n; i++) {
         cin >> c[i];
         mp[i][c[i]]++;

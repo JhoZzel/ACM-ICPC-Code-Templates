@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// 2D Segment Tree
+//
 
 const int N = 1000 + 5;
 
@@ -23,7 +23,7 @@ void build_y(int id_x, int tl_x, int tr_x, int id_y = 1, int tl_y = 1, int tr_y 
     }
 }
 
-void build_x(int id_x = 1, int tl_x = 1, int tr_x = n) { 
+void build_x(int id_x = 1, int tl_x = 1, int tr_x = n) {  // Initialize build_x() 
     if (tl_x != tr_x) {
         int tm_x = (tl_x + tr_x) / 2;
         build_x(2 * id_x, tl_x, tm_x);

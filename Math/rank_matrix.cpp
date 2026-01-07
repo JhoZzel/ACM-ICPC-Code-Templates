@@ -1,34 +1,8 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-using ll = long long;
-
-const int MOD = 998244353;
-
-int add(int a, int b) { return (a + b) % MOD; }
-int mul(int a, int b) { return 1ll * a * b % MOD; }
-int bpow(int a, int e) {
-    int r = 1;
-    while(e) {
-        if (e & 1) r = mul(r, a);
-        a = mul(a, a);
-        e >>= 1;
-    }
-    return r;
-}
+// Rank matrix
+// 
 
 int n,m;
 vector<vector<int>> a;
-
-void pv() {
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            cout << a[i][j] << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
 void transpose(vector<vector<int>> &a) {
     vector b(m, vector(n, 0));
@@ -80,5 +54,5 @@ int main() {
     }
     cout << r << '\n';
 
-	return 0;
+    return 0;
 }

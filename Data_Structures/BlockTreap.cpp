@@ -1,8 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2")
+// Block Treap
+//
 
 using ll = long long;
 
@@ -70,8 +67,6 @@ node* build(vector<pair<int,int>> &b, int l, int r) {
     update(t);
     return t;
 }
-
-
 
 node* merge(node *l, node *r) {
     if (!l) return r;
@@ -194,4 +189,3 @@ int main() {
 
     return 0;
 }
-// https://codeforces.com/gym/104149/problem/M

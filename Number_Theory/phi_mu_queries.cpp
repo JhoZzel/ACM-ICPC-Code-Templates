@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
-using namespace std;
+// Phi and mu 
+//
 
 const int MAX = 1e7 + 5;
 
@@ -35,14 +35,4 @@ void solve() {
     int phi = n, mu = 1;
     get_phi_mu(n, phi, mu);
     cout << phi << " " << mu << "\n";
-}
-
-int main() {
-    cin.tie(0)->sync_with_stdio(0);
-    sieve();
-    int q; cin >> q;
-    while(q--) {
-        solve();
-    }
-	return 0;
 }

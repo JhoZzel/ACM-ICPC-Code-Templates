@@ -1,5 +1,5 @@
-#define sz(x) (int)x.size()
-#define all(x) x.begin(), x.end()
+// FFT in place
+//
 
 using ll = long long;
 using cd = complex<double>;
