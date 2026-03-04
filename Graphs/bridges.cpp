@@ -1,32 +1,29 @@
 // Bridges
 // 
 
-const int N = 1e5 + 5;
+const int N = 2e5 + 5;
 
-int n;
-int m; 
-int nc;
+int n,m,nc;
 int timer;
 int C[N];
 int tin[N];
 int low[N];
-int deg[N];
 bool vis[N];
 bool bridge[N];
 vector<pair<int,int>> G[N];
 vector<int> GG[N];
 
 void dfs(int u, int par = -1) {
-    vis[u] = true;
+    vis[u] = 1;
     low[u] = tin[u] = timer++;
-    for (auto [w, e] : G[u]) {
-        if (w == par) continue;
-        if (vis[w]) low[u] = min(low[u], tin[w]);
+    for (auto [v, e] : G[u]) {
+        if (v == par) continue;
+        if (vis[v]) low[u] = min(low[u], tin[v]);
         else {
-            dfs(w,u);
-            low[u] = min(low[u], low[w]);
-            if (low[w] > tin[u]) {
-                bridge[e] = true;
+            dfs(v,u);
+            low[u] = min(low[u], low[v]);
+            if (low[v] > tin[u]) {
+                bridge[e] = 1;
             }
         }
     }
@@ -34,21 +31,21 @@ void dfs(int u, int par = -1) {
 
 void solve() {
     dfs(0);
-    fill(vis, vis + n, false);
+    fill(vis, vis + n, 0);
+
     // We color the nodes for the same component
     for (int i = 0; i < n; i++) {
         if (vis[i]) continue;
         queue<int> Q;
         Q.emplace(i);
-        vis[i] = true;
+        vis[i] = 1;
         while(!Q.empty()) {
             int u = Q.front(); Q.pop();
             C[u] = nc;
-            for (auto [w, e] : G[u]) {
-                if (bridge[e]) continue;
-                if (vis[w]) continue;
-                Q.push(w);
-                vis[w] = true;
+            for (auto [v, e] : G[u]) {
+                if (bridge[e] or vis[v]) continue;
+                vis[v] = 1;
+                Q.push(v);
             }
         }
         nc++;
@@ -56,12 +53,13 @@ void solve() {
     
     // We construct the induced graph (2-edge conected tree) 
     for (int i = 0; i < n; i++) {
-        for (auto [w,e] : G[i]) {
-            if (C[w] == C[i]) continue;
-            GG[C[i]].push_back(C[w]);
-            deg[C[w]]++;
+        for (auto [v, e] : G[i]) {
+            if (C[v] == C[i]) continue;
+            GG[C[i]].push_back(C[v]);
         }
     }
+    
+
 }
 
 int main() {
@@ -74,5 +72,6 @@ int main() {
         G[v].emplace_back(u, i);
     }
     solve();
+    
     return 0;
 }

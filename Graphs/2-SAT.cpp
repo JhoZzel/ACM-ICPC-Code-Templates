@@ -11,7 +11,7 @@ struct SAT { // 0-indexed
     
     SAT(int n) : n(n) {
         comp.resize(2 * n);
-        vis.assign(2 * n, false);
+        vis.assign(2 * n, 0);
         G[0].assign(2 * n, vector<int> ());
         G[1].assign(2 * n, vector<int> ());
     }
@@ -26,29 +26,25 @@ struct SAT { // 0-indexed
     }
     
     void dfs(int u, int id) {
-        vis[u] = true;
+        vis[u] = 1;
         for (int v : G[id][u]) {
-            if (vis[v]) continue;
-            dfs(v, id);
+            if (!vis[v]) dfs(v, id);
         }
         (id ? component : order).push_back(u);
     }
 
     void get_SCC() {
         for (int u = 0; u < 2 * n; u++) {
-            if (vis[u]) continue;
-            dfs(u, 0);
+            if (!vis[u]) dfs(u, 0);
         }
         reverse(order.begin(), order.end());
-        vis.assign(2 * n, false);
-        int component_id = 0;
+        vis.assign(2 * n, 0);
+        int id = 0;
         for (int u : order) {
             if (vis[u]) continue;
             dfs(u, 1);
-            for (int x : component) {
-                comp[x] = component_id;
-            }
-            component_id++;
+            for (int x : component) comp[x] = id;
+            id++;
             component.clear();
         }
     }
@@ -68,8 +64,7 @@ struct SAT { // 0-indexed
 };
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(0) -> sync_with_stdio(0);
 
     int n, m;
     cin >> n >> m;
