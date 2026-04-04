@@ -1,11 +1,17 @@
 // SCC
 //
 
+#include <bits/stdc++.h>
+using namespace std;
+
+#define all(x) x.begin(), x.end()
+#define sz(x) (int)x.size()
+
 const int N = 5e5 + 5;
 
-int n,m,nc;
+int n,m;
+int nc;
 int c[N];
-int in[N];
 bool vis[N];
 vector<int> GG[N];
 vector<int> G[2][N];
@@ -33,16 +39,11 @@ int main() {
     }
 
     vector<int> order;
-    for (int i = 0; i < n; i++) {
-        if (vis[i]) continue;
-        dfs(0, i, order);
-    }
-    
-    reverse(order.begin(), order.end());
+    for (int i = 0; i < n; i++) if (!vis[i]) dfs(0, i, order);
+    reverse(all(order));
 
     fill(vis, vis + n, 0);
-    
-    nc = 0;
+
     for (int u : order) {
         if (vis[u]) continue;
         vector<int> comp;
@@ -51,12 +52,13 @@ int main() {
         SCC.push_back(comp);
         nc++;
     }
-
+    
+    
+    // Build condensed graph
     for (int i = 0; i < n; i++) {
         for (int j : G[0][i]) {
             if (c[i] == c[j]) continue;
             GG[c[i]].push_back(c[j]);
-            in[c[j]]++;
         }
     }
 
@@ -76,3 +78,4 @@ int main() {
 
     return 0;
 }
+
