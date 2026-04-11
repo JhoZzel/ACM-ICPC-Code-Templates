@@ -1,6 +1,9 @@
 // Persistent Segment Tree
 //
 
+#include <bits/stdc++.h>
+using namespace std;
+
 const int N = 1e5 + 5;
 const int LOG = 17;
 const int NODES = (4 + LOG) * N;
@@ -35,7 +38,7 @@ int build(int tl = 0, int tr = m - 1) {
 }
 
 int update(int id, int pos, int x, int tl = 0, int tr = m - 1) { // root id (version)
-    if (tl == tr) return new_leaf(T[id] + x);
+    if (tl == tr) return new_leaf(T[id] + x); // add x (NOT set x)
     int tm = (tl + tr) / 2;
     if (pos <= tm) return new_par(update(L[id], pos, x, tl, tm), R[id]);
     return new_par(L[id], update(R[id], pos, x, tm + 1, tr));
