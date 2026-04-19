@@ -1,9 +1,12 @@
 // Small to Large
 //
 
+#include <bits/stdc+++.h>
+using namespace std;
+
 using ll = long long;
 
-const int N = 1e5 + 5;
+const int N = 5e5 + 5;
 
 int n;
 int c[N];
@@ -34,26 +37,23 @@ void merge(int u, int v) {
 }
 
 void dfs(int u, int p = 0) { 
-    for (int v : G[u]) {
-        if (v == p) continue;
+    for (int v : G[u]) if (v != p) {
         dfs(v, u);
         merge(u, v);
     }
     ans[u] = sum[get(u)];
 }
 
-
 int main() {
     cin.tie(0) -> sync_with_stdio(0);
 
     cin >> n;
-    // Initialize...
     for (int i = 0; i < n; i++) {
         cin >> c[i];
+        par[i] = i;
+        mx[i] = 1;
         mp[i][c[i]]++;
         sum[i] = c[i];
-        mx[i] = 1;
-        par[i] = i;
     }
 
     for (int i = 1; i < n; i++) {

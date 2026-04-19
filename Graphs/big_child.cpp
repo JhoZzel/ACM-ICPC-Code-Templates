@@ -1,3 +1,6 @@
+// Big Child
+// 
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -41,28 +44,22 @@ ll query() {
 
 void dfs(int u, int p, bool keep) {    
     int big = -1;
-    for (int v : G[u]) if (v != p) { // idetify the big child
-        if (big == -1 or sz[v] > sz[big]) big = v;
-    }
+    for (int v : G[u]) if (v != p and (big == -1 or sz[v] > sz[big])) big = v; // indetify big child
     for (int v : G[u]) if (v != p and v != big) {
         dfs(v, u, 0); // run a dfs on small childs and clear them from cnt
     }
     if (big != -1) dfs(big, u, 1); //  dfs on bigChild not cleared from cnt, keep values
-    
     // Now we have info just about the big child
-    // Add the info about the node u
-    add(u, 1);
+    add(u, 1); // add the info about the node u
     for (int v : G[u]) if (v != p and v != big) {
         for (int t = tin[v]; t <= tout[v]; t++) { // Add the info about the small nodes
             add(who[t], 1);
         }
     }
-
     // the arrays have the information updates for the node u, you can answer queries easily
     ans[u] = query();
-
-    if (!keep) { // clear all the subtree?
-        for (int t = tin[u]; t <= tout[u]; t++) {
+    if (!keep) { 
+        for (int t = tin[u]; t <= tout[u]; t++) { // clear every node in the subtree
             add(who[t], -1);
         }
     }
