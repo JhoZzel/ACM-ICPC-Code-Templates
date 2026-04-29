@@ -1,22 +1,30 @@
-// HLD conmutative
-//
-// O(log^2 N)
+// Heavy Light Descomposition (conmutative)
+// query: O(log^2(N)) |  update: O(logN)  
+
+#include <bits/stdc++.h>
+using namespace std;
 
 using ll = long long;
- 
+
+struct node {
+    int mx;
+    node() : mx(INT_MIN) {}
+    node(int x) : mx(x) {}
+    node operator + (node other) {
+        node q;
+        q.mx = max(mx, other.mx);
+        return q;
+    }
+};
+
 const int N = 2e5 + 5;
- 
+
 int n,q;
-int timer;
-int tin[N];
-int tout[N];
-int head[N];
-int par[N];
 int a[N];
 int val[N];
-int h[N];
-int sz[N];
-int T[4 * N];
+int timer, tin[N], tout[N];
+int head[N], par[N], h[N], sz[N];
+node T[4 * N];
 vector<int> G[N];
  
 void pre_dfs(int u, int p = 0) {
@@ -43,39 +51,39 @@ void dfs(int u, int p = 0) {
 }
  
 void build(int id = 1, int tl = 0, int tr = n - 1) {
-    if (tl == tr) T[id] = a[tl];
+    if (tl == tr) T[id] = node(a[tl]);
     else {
         int tm = (tl + tr) / 2;
         build(2 * id, tl, tm);
         build(2 * id + 1, tm + 1, tr);
-        T[id] = max(T[2 * id], T[2 * id + 1]);
+        T[id] = T[2 * id] + T[2 * id + 1];
     }
 }
 void update(int pos, int x, int id = 1, int tl = 0, int tr = n - 1) {
-    if (tl == tr) T[id] = x;
+    if (tl == tr) T[id] = node(x);
     else {
         int tm = (tl + tr) / 2;
         if (pos <= tm) update(pos, x, 2 * id, tl, tm);
         else update(pos, x, 2 * id + 1, tm + 1, tr);
-        T[id] = max(T[2 * id], T[2 * id + 1]);
+        T[id] = T[2 * id] + T[2 * id + 1];
     }
 }
  
-int query(int l, int r, int id = 1, int tl = 0, int tr = n - 1) {
-    if (l > r) return 0;
+node query(int l, int r, int id = 1, int tl = 0, int tr = n - 1) {
+    if (l > r) return node();
     if (tl == l and tr == r) return T[id];
     int tm = (tl + tr) / 2;
-    int valL = query(l, min(r, tm), 2 * id, tl, tm);
-    int valR = query(max(l, tm + 1), r, 2 * id + 1, tm + 1, tr);
-    return max(valL, valR);
+    node valL = query(l, min(r, tm), 2 * id, tl, tm);
+    node valR = query(max(l, tm + 1), r, 2 * id + 1, tm + 1, tr);
+    return valL + valR;
 }
  
-int query_hld(int u, int v) { // conmutative
+node query_hld(int u, int v) { // conmutative
     if (h[u] > h[v]) swap(u, v);
     int x = head[u], y = head[v];
-    if (x == y) return query(tin[u], tin[v]);
+    if (x == y) return query(tin[u], tin[v]); // be careful values in edges [tin[u] + 1, tin[v]]
     if (h[x] < h[y]) swap(x, y), swap(u, v);
-    return max(query(tin[x], tin[u]), query_hld(par[x], v));
+    return query(tin[x], tin[u]) + query_hld(par[x], v);
 }
  
 int main() {
@@ -111,7 +119,7 @@ int main() {
             int u,v;
             cin >> u >> v;
             v--; u--;
-            cout << query_hld(u, v) << "\n";
+            cout << query_hld(u, v).mx << "\n";
         }
     }
  
