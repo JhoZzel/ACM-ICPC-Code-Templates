@@ -1,39 +1,55 @@
-// Bridges
-// 
+// Bridges 
+// (useful with multiedges and self loops)
 
-const int N = 2e5 + 5;
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+
+const int N = 5e5 + 5;
 
 int n,m,nc;
-int timer;
 int C[N];
-int tin[N];
-int low[N];
+int dp[N];
 bool vis[N];
+int color[N];
 bool bridge[N];
+vector<int> T[N];
 vector<pair<int,int>> G[N];
-vector<int> GG[N];
+vector<pair<int,int>> edges;
 
-void dfs(int u, int par = -1) {
-    vis[u] = 1;
-    low[u] = tin[u] = timer++;
-    for (auto [v, e] : G[u]) {
-        if (v == par) continue;
-        if (vis[v]) low[u] = min(low[u], tin[v]);
-        else {
-            dfs(v,u);
-            low[u] = min(low[u], low[v]);
-            if (low[v] > tin[u]) {
-                bridge[e] = 1;
-            }
+void dfs_bridge(int u, int p_id = -1) { 
+    color[u] = 1;
+    for (auto [v, id] : G[u]) if (id != p_id) {
+        if (color[v] == 2) continue;
+        if (color[v] == 1) {
+            dp[u] += 1;
+            dp[v] -= 1;
+        } else {
+            dfs_bridge(v, id);
+            dp[u] += dp[v];
+            if (dp[v] == 0) bridge[id] = 1;
         }
     }
+    color[u] = 2;
 }
 
-void solve() {
-    dfs(0);
-    fill(vis, vis + n, 0);
+int main() {
+    cin.tie(0) -> sync_with_stdio(0);
 
-    // We color the nodes for the same component
+    cin >> n >> m;
+    for (int i = 0; i < m; i++) {
+        int u,v;
+        cin >> u >> v;
+        u--; v--;
+        G[u].emplace_back(v, i);
+        G[v].emplace_back(u, i);
+        edges.emplace_back(u, v);
+    }
+
+    dfs_bridge(0);
+
+    // Paint the components C[u]
     for (int i = 0; i < n; i++) {
         if (vis[i]) continue;
         queue<int> Q;
@@ -50,28 +66,17 @@ void solve() {
         }
         nc++;
     } 
-    
+
     // We construct the induced graph (2-edge conected tree) 
-    for (int i = 0; i < n; i++) {
-        for (auto [v, e] : G[i]) {
-            if (C[v] == C[i]) continue;
-            GG[C[i]].push_back(C[v]);
-        }
-    }
-    
-
-}
-
-int main() {
-    cin.tie(0) -> sync_with_stdio(0);
-    cin >> n >> m;
     for (int i = 0; i < m; i++) {
-        int u, v;
-        cin >> u >> v;
-        G[u].emplace_back(v, i);
-        G[v].emplace_back(u, i);
+        if (!bridge[i]) continue;
+        auto [u, v] = edges[i];
+
+        u = C[u], v = C[v];
+
+        T[u].emplace_back(v);
+        T[v].emplace_back(u);
     }
-    solve();
     
     return 0;
 }
