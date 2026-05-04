@@ -71,9 +71,8 @@ int main() {
     for (int i = 0; i < m; i++) {
         if (!bridge[i]) continue;
         auto [u, v] = edges[i];
-
-        u = C[u], v = C[v];
-
+        u = C[u];
+        v = C[v];
         T[u].emplace_back(v);
         T[v].emplace_back(u);
     }
