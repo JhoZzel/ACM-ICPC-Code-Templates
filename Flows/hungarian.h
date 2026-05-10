@@ -6,7 +6,7 @@ using ll = long long;
 #define all(x) x.begin(), x.end()
 
 struct Hungarian {
-	static const ll INF = 1e18; //for maximum set INF to 0, and negate costs
+	const ll INF = LLONG_MAX; //for maximum set INF to 0, and negate costs
 	
     int n;
 	vector<int> L, R;
@@ -17,9 +17,7 @@ struct Hungarian {
         cs.assign(n, vector(n, 0ll));
         L.assign(n, -1);
         R.assign(n, -1);
-        for (int i = 0; i < N; i++)
-            for (int j = 0; j < M; j++)
-                cs[i][j] = INF;
+        for (int i = 0; i < N; i++) for (int j = 0; j < M; j++) cs[i][j] = INF;
     }
     
     void set(int i, int j, ll w) {
@@ -57,9 +55,7 @@ struct Hungarian {
             dad.assign(n, -1);
             son.assign(n, 0);
 
-			for (int k = 0; k < n; k++){
-				ds[k] = cs[s][k] - u[s] - v[k];
-            }
+			for (int k = 0; k < n; k++) ds[k] = cs[s][k] - u[s] - v[k];
 			
             while (true){
 				j = -1;
@@ -69,25 +65,21 @@ struct Hungarian {
 				son[j] = 1;
 				i = R[j];
                 if (i == -1) break;
-				for (int k = 0; k < n; k++){
-					if (!son[k]){
-						ll new_ds = ds[j] + cs[i][k] - u[i] - v[k];
-						if (ds[k] > new_ds){
-							ds[k] = new_ds;
-							dad[k] = j;
-						}
-					}
-				}
+                for (int k = 0; k < n; k++) if (!son[k]) {
+                    ll new_ds = ds[j] + cs[i][k] - u[i] - v[k];
+                    if (ds[k] > new_ds){
+                        ds[k] = new_ds;
+                        dad[k] = j;
+                    }
+                }
 			}
             
-            for (int k = 0; k < n; k++) {
-                if (k != j and son[k]) {
-                    ll w = ds[k] - ds[j];
-                    v[k] += w;
-                    u[R[k]] -= w;
-                }
-            }
-			
+            for (int k = 0; k < n; k++) if (k != j and son[k]) {
+                ll w = ds[k] - ds[j];
+                v[k] += w;
+                u[R[k]] -= w;
+            }   
+
             u[s] += ds[j];
 			
             while (dad[j] >= 0){
@@ -103,10 +95,7 @@ struct Hungarian {
 		}
 
         ll ans = 0;
-        for (int i = 0; i < n; i++) {
-            if (L[i] != -1) ans += cs[i][L[i]];
-        }
-
+        for (int i = 0; i < n; i++) if (L[i] != -1) ans += cs[i][L[i]];
 		return ans;
 	}
 
