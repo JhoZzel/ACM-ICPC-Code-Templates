@@ -1,6 +1,10 @@
 // Hashing
 //
 
+using ll = long long;
+
+const int MOD = 1e9 + 9;
+
 struct Hashing {
     vector<ll> p, h;
     Hashing(string &s, int B) {
