@@ -4,6 +4,10 @@ constexpr double EPS = 1e-9, PI = acos(-1.0);
 
 using T = double;
 
+// [-eps, eps] is zero
+// <-oo, -eps>  (-)
+// <eps, +oo>   (+)
+
 int sgn(T x) {
   if (x < -EPS) return -1;
   if (x > EPS) return 1;
