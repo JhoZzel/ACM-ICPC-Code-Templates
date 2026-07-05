@@ -7,12 +7,14 @@ int n,q;
 int FT[N][N];
 
 void update(int x, int y, int d) { // Add d to (x, y)
+    x++; y++;
     for (int i = x; i < N; i += i & -i) 
         for (int j = y; j < N; j += j & -j) 
             FT[i][j] += d;
 }
 
-int sum(int x, int y) { // sum (0, 0) -> (x, y)
+int sum(int x, int y) { // 0-indexed
+    x++; y++;
     int sa = 0;
     for (int i = x; i; i -= i & -i) 
         for (int j = y; j; j -= j & -j)
