@@ -5,7 +5,7 @@
 using namespace std;
 
 const int N = 1e5 + 5;
-const int LOG = 17;
+const int LOG = 20; // asegura chamo
 const int NODES = (4 + LOG) * N;
 
 int n,m,q;
