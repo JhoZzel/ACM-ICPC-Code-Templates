@@ -43,7 +43,9 @@ int main() {
     for (int i = 0; i <= n; i++) {
         int sg = (n - i) % 2 == 0 ? 1 : -1;
         ll add = sg * y[i] * pre[i] % MOD * suf[i] % MOD * Fi[i] % MOD * Fi[n - i] % MOD;
-        ans = (ans + add + MOD) % MOD;
+	ans += add;
+	ans %= MOD;
+	if (ans < 0) ans += MOD;
     }
     cout << ans << '\n';
 
