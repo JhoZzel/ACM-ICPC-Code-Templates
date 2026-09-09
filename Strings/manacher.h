@@ -1,6 +1,7 @@
 // Manacher
 //
 
+// d1 odd d2 even  (maximal ratio)
 void manacher(string &s, vector<int> &d1, vector<int> &d2) {
     int n = s.size();
 

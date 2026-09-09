@@ -1,10 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define all(x) x.begin(), x.end()
-#define sz(x) (int) x.size()
-
 using ll = long long;
+
+const int MOD = 1e9 + 7;
+const int N = 1000 + 5;
+const int M = 100 + 5;
+
+ll dp[N][M][2];
 
 vector<int> kmp(string s) {
 	int n = s.size();
@@ -20,10 +23,11 @@ vector<int> kmp(string s) {
 
 int main() {
 	cin.tie(0) -> sync_with_stdio(0);
-	string s,t;
-	cin >> s >> t;
+
+	int n;
+	string t;
+	cin >> n >> t;
 	
-	int n = s.size();
 	int m = t.size();
 
 	vector<int> p = kmp(t);
@@ -40,24 +44,29 @@ int main() {
 		}
 	}
 
-	vector dp(n + 1, vector(m + 1, -1));
-	dp[0][0] = 0;
-	for (int i = 0; i < n; i++) {
+
+	// Number of strings of length n having a given pattern of length m as their substring
+	dp[0][0][0] = 1;
+	for (int i = 0; i < n; i++) { 
 		for (int j = 0; j <= m; j++) {
-			if (dp[i][j] == -1) continue;
-			int lo = 0, hi = 25;
-			if (s[i] != '?') lo = hi = s[i] - 'a';
-			for (int c = lo; c <= hi; c++) {
-				int k = aut[j][c];
-				dp[i + 1][k] = max(dp[i + 1][k], dp[i][j] + (k == m));
+			for (int c = 0; c < 26; c++) {
+				int to = aut[j][c];
+				for (int b : {0, 1}) {
+					int nb = b or (to == m);
+					dp[i + 1][to][nb] += dp[i][j][b];
+					dp[i + 1][to][nb] %= MOD;
+				}
 			}
 		}
 	}
 
-	int ans = 0;
-	for (int j = 0; j <= m; j++) ans = max(ans, dp[n][j]);
+	ll ans = 0;
+	for (int j = 0; j <= m; j++) ans += dp[n][j][1];
+	ans %= MOD;
+	
 	cout << ans << "\n";
 
 	return 0;
 }
 
+// https://cses.fi/problemset/task/1112/
