@@ -7,7 +7,7 @@ using namespace std;
 using ll = long long;
 using Poly = vector<ll>;
 
-const int MOD = 1e9 + 7;
+const int MOD = 1e9 + 7; // primo
 
 ll bpow(ll a, ll e) {
     ll r = 1;

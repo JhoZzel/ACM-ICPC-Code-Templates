@@ -29,6 +29,7 @@ struct Num {
 		ll ny = (x * other.y + y * other.x) % MOD;
 		return Num(nx, ny);
 	}
+
 	bool operator == (const Num &other) const {
 		return x == other.x and y == other.y;
 	}
@@ -59,7 +60,7 @@ Num inv(Num n) {
 }
 
 Num bpow(Num a, ll e) {
-	Num r(1, 0); // Result starts as 1 + 0*sqrt(5)
+	Num r(1); // Result starts as 1 + 0*sqrt(5)
 	while (e) {
 		if (e & 1) r = r * a;
 		a = a * a;
@@ -77,19 +78,16 @@ const Num psi = Num(INV2, -INV2);
 
 ll F[N], Fi[N];
 
-// Binet's formula: f_n = 1/sqrt(5) x ( phi ^ n - psi ^ n )
-
-ll fibo(ll n) {
-	Num e1 = bpow(phi, n), e2 = bpow(psi, n);
-	Num k(0, INV5);
-	Num res = (e1 - e2) * k;
-	assert(res.y == 0);
-	return res.x;
-}
-
 ll comb(int n, int k) {
 	if (n - k < 0)return 0;
-	return F[n] * Fi[k] % MOD * Fi[n -k] % MOD;
+	return F[n] * Fi[k] % MOD * Fi[n - k] % MOD;
+}
+
+ll fibo(ll n) { // Binet's formula: f_n = 1/sqrt(5) x ( phi ^ n - psi ^ n )
+	Num e1 = bpow(phi, n), e2 = bpow(psi, n);
+	Num res = Num(0, INV5) * (e1 - e2);
+	assert(res.y == 0);
+	return res.x;
 }
 
 void solve() {
@@ -134,4 +132,3 @@ int main() {
 }
 
 // https://www.spoj.com/problems/FIBPSUM2/
-
