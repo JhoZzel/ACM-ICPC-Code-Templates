@@ -57,8 +57,8 @@ vector<int> suffix_array(string &s) {
 	vector<int> a(n), c(n);
 	iota(all(a), 0);
 	sort(all(a), [&](int i, int j) {
-		return s[i] < s[j];
-	});
+			return s[i] < s[j];
+			});
 	c[a[0]] = 0;
 	for (int i = 1; i < n; i++) {
 		c[a[i]] = c[a[i - 1]] + (s[a[i - 1]] != s[a[i]]);
@@ -87,26 +87,34 @@ vector<int> suffix_array(string &s) {
 	return a;
 }
 
+int cnt_str(string &s, vector<int> &suf, string &p) { // online queries patterns matching
+	if (sz(p) > sz(s)) return 0;
+	auto L = lower_bound(suf.begin() + 1, suf.end(), p, [&](int id, const string& pat) {
+		return s.compare(id, sz(pat), pat) < 0;
+	});
+	auto R = upper_bound(suf.begin() + 1, suf.end(), p, [&](const string& pat, int id) {
+		return s.compare(id, sz(pat), pat) > 0;
+	});
+	return R - L;
+}
+
 int main() {
 	cin.tie(0) -> sync_with_stdio(0);
 
-	string s; cin >> s;
+	string s; cin >> s; 
 	s += "$";
+
 	int n = s.size();
 	vector<int> suf = suffix_array(s);
 	vector<int> lcp = lcp_array(s, suf);
 	build(lcp);
-	vector<int> r(n);
-	for (int i = 0; i < n; i++) r[suf[i]] = i;
+	vector<int> pos(n);
+	for (int i = 0; i < n; i++) pos[suf[i]] = i;
+
 	cout << "s: " << s << endl;
-	cout << "r: ";
-	for (int i = 0; i < n; i++) cout << r[i] << " ";
+	cout << "pos: ";
+	for (int i = 0; i < n; i++) cout << pos[i] << " ";
 	cout << '\n';
-	for (int i = 0; i < n; i++) {
-		for (int j = i; j < n; j++) {
-			cout << i << ", " << j << " -> " << query(i, j) << '\n';
-		}
-	}
 
 	return 0;
 }
