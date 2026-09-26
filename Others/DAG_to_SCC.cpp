@@ -1,3 +1,9 @@
+// 
+// Necesita como min agregar : max(out_deg_0, in_deg_0)
+// Para todo tipo de grafos no necesariamente tiene q ser conexo
+// Edges case : Ya es una SCC -> no agregar nada
+
+
 #include <bits/stdc++.h>
 using namespace std;
  
