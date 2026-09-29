@@ -17,17 +17,17 @@ using ordered_set = tree<
 >;
 
 struct ord_ms {
-	int T;
+	int id;
 	ordered_set<pair<int,int>> S;
-	ord_ms() : T(0) {}
-	void insert(int x) { S.insert({x, T++}); }
+	ord_ms() : id(0) {}
+	void insert(int x) { S.insert({x, id++}); }
 	int cnt_less(int x) { return S.order_of_key({x, INT_MIN}); }
 	int cnt_leq(int x) { return S.order_of_key({x, INT_MAX}); }
 	int cnt_grt(int x) { return (int)S.size() - cnt_leq(x); }
 	int cnt_geq(int x) { return (int)S.size() - cnt_less(x); }
 	int sz() { return S.size(); }
 	void clean() {
-		T = 0;
+		id = 0;
 		S.clear();
 	}
 };

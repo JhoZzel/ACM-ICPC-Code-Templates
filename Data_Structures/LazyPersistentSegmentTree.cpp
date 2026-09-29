@@ -1,121 +1,105 @@
-// Lazy Persistent Segment Tree
-//
+#include <bits/stdc++.h>
+using namespace std;
 
-const int N = 1e5 + 6;
-const int NODES = 300 * N;
+const int Q = 1e5 + 5;
+const int NODES = 2e7;;
 
-int n,q;
+int n,m,M,q;
 int nodes;
-int a[N];
-int root[N];
+int T[NODES];
 int L[NODES];
 int R[NODES];
-ll T[NODES];
-ll lazy[NODES];
+int root[Q];
+int lazy[NODES];
 
-int new_leaf(ll x) {
-    int id = ++nodes;
-    L[id] = R[id] = 0;
-    T[id] = x;
-    return id;
+int copy(int old) {
+	int cur = nodes++;
+	L[cur] = L[old];
+	R[cur] = R[old];
+	T[cur] = T[old];
+	lazy[cur] = lazy[old];
+	return cur;
 }
 
-int new_par(int l_id, int r_id) { 
-    int id = ++nodes;
-    L[id] = l_id; 
-    R[id] = r_id;
-    T[id] = T[L[id]] + T[R[id]];
-    return id;
+int push(int old, int tl, int tr) {
+	int cur = copy(old);
+	if (lazy[cur] == 0) return cur;
+	int len = (tr - tl +1);
+	T[cur] = len - T[cur];
+	if (tl != tr) {
+		L[cur] = copy(L[old]);
+		R[cur] = copy(R[old]);
+		lazy[L[cur]] ^= lazy[cur];
+		lazy[R[cur]] ^= lazy[cur];
+	}
+	lazy[cur] = 0;
+	return cur;
 }
 
-int copy(int id) {
-    int new_id = ++nodes;
-    L[new_id] = L[id];
-    R[new_id] = R[id];
-    T[new_id] = T[id];
-    lazy[new_id] = lazy[id];
-    return new_id;
+int update_range(int old, int l, int r, int tl = 0, int tr = M - 1) {
+	int cur = push(old, tl, tr);
+	if (l > r) return cur;
+	if (tl == l and tr == r)  {
+		lazy[cur] ^= 1;
+		cur = push(cur, tl, tr);
+	} else {
+		int tm = (tl + tr) / 2;
+		L[cur] = update_range(L[cur], l, min(tm, r), tl, tm);
+		R[cur] = update_range(R[cur], max(tm + 1, l), r, tm + 1, tr);
+		T[cur] = T[L[cur]] +  T[R[cur]];
+	}
+	return cur;
 }
 
-int build(int tl = 1, int tr = n) { 
-    if (tl == tr) return new_leaf(a[tl]);
-    int tm = (tl + tr) / 2; 
-    return new_par(build(tl, tm), build(tm + 1, tr));
-}
-
-int push(int old, int tl, int tr, int x = 0) {
-    int cur = copy(old);
-    lazy[cur] += x;
-    
-    if (!lazy[cur]) return cur;
-
-    int len = tr - tl + 1;
-    T[cur] += lazy[cur] * len;
-    
-    if (tl != tr) {
-        L[cur] = copy(L[old]);
-        R[cur] = copy(R[old]);
-        lazy[L[cur]] += lazy[cur];
-        lazy[R[cur]] += lazy[cur];
-    }
-    
-    lazy[cur] = 0;
-    
-    return cur;
-}
-
-int update(int old, int l, int r, int x, int tl = 1, int tr = n) { 
-    int cur = push(old, tl, tr);
-    if (l > r) return cur;
-    if (tl == l and tr == r) return push(cur, tl, tr, x);
-    int tm = (tl + tr) / 2;
-    L[cur] = update(L[cur], l, min(tm, r), x, tl, tm);
-    R[cur] = update(R[cur], max(tm + 1, l), r, x, tm + 1, tr);
-    T[cur] = T[L[cur]] + T[R[cur]];
-    return cur;
-}
-
-ll query(int cur, int l, int r, int tl = 1, int tr = n) { 
-    cur = push(cur, tl, tr);
-    if (l > r) return 0ll;
-    if (tl == l and tr == r) return T[cur];
-    int tm = (tl + tr) / 2;
-    ll valL = query(L[cur], l, min(r, tm), tl, tm);
-    ll valR = query(R[cur], max(tm + 1, l), r, tm + 1, tr);
-    return valL + valR;
+int update(int old, int pos, int x, int tl = 0, int tr = M - 1) {
+	int cur = push(old, tl, tr);
+	if (tl == tr) {
+		T[cur] = x;
+	} else {
+		int tm = (tl + tr) / 2;
+		if (pos <= tm) {
+			L[cur] = update(L[cur], pos, x, tl, tm);
+			R[cur] = push(R[cur], tm + 1, tr);
+		} else {
+			R[cur] = update(R[cur], pos, x, tm + 1, tr);
+			L[cur] = push(L[cur],tl, tm);
+		}
+		T[cur] = T[L[cur]] + T[R[cur]];
+	}
+	return cur;
 }
 
 int main() {
-    cin.tie(0)->sync_with_stdio(0);
- 
-    cin >> n >> q;
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	cin.tie(0) -> sync_with_stdio(0);
+	cin >> n >> m >> q;
+	root[0] = nodes++;
+	M = n * m;
+	for (int rt = 1; rt <= q; rt++) {
+		int op; cin >> op;
+		if (op == 1) {
+			int i,j;
+			cin >> i >> j;
+			i--; j--;
+			int pos = i * m + j;
+			root[rt] = update(root[rt - 1], pos, 1);
+		} else if (op == 2){
+			int i,j;
+			cin >> i >> j;
+			i--; j--;
+			int pos = i * m + j;
+			root[rt] = update(root[rt - 1], pos, 0);
+		} else if (op == 3){
+			int i; cin >> i;
+			i--;
+			int l = i * m, r = (i + 1) * m - 1;
+			root[rt] = update_range(root[rt - 1], l, r); // flip
+		} else {
+			int k; cin >> k;
+			root[rt] = root[k];
+		}
+		cout << T[root[rt]] << "\n";
+	}
 
-    int cur_t = 0;
-    root[0] = build();
-    while(q--) {
-        char op; cin >> op;
-        if (op == 'C') {
-            int l,r,d;
-            cin >> l >> r >> d;
-            root[cur_t + 1] =  update(root[cur_t], l, r, d);      
-            cur_t++;
-        } 
-        else if (op == 'Q') {
-            int l,r;
-            cin >> l >> r;
-            cout << query(root[cur_t], l, r) << '\n';
-        } 
-        else if (op == 'H') {
-            int l,r,t;
-            cin >> l >> r >> t;
-            cout << query(root[t], l, r) << '\n';
-        }  
-        else {
-            int t; cin >> t;
-            cur_t = t;
-        }
-    }
-
-    return 0;
+	return 0;
 }
+// https://codeforces.com/group/9ksB4OUCbY/contest/704950/problem/B

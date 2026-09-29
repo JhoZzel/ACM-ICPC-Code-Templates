@@ -21,15 +21,6 @@ struct Query {
 	}
 };
 
-void update(int x, int del) {
-	
-}
-
-ll get_answer() {
-	
-}
-
-
 vector<int> mo_algorithm(vector<Query> Q) {
 	vector<int> ans(sz(Q));
 	sort(all(Q));
