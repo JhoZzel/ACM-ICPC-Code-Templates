@@ -48,21 +48,16 @@ void decompose(int x, int p, int m) {
 		dfs(v, cen, 1, 1);
 	}
 
-	if (~pi[cen]) sz[pi[cen]] = m - sz[cen];
-	pi[cen] = p;
+	if (~pi[cen]) sz[pi[cen]] = m - sz[cen]; // padre en el dfs normal
+	pi[cen] = p; // padre en el centroid TREE
 	block[cen] = 1;
 	for (int v : G[cen]) if (!block[v]) {
 		decompose(v, cen, sz[v]);
 	}
 }
 
-// Fixed-Length Paths I CSES
-// Given a tree of n nodes, your task is to count the number of distinct paths that consist of exactly k edges.
-
-int main() { 
+int main() {
 	cin.tie(0) -> sync_with_stdio(0);
-
-	memset(pi,-1,sizeof(pi));
 
 	cin >> n >> k;
 	for (int i = 1; i < n; i++) {
