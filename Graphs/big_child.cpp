@@ -40,7 +40,7 @@ void add(int u, int d) {
 ll query() {
 	while(cnt[mx_freq] == 0) mx_freq--;
 	return sum[mx_freq];
-}
+} 
 
 void dfs(int u, int p, bool keep) {    
 	int big = -1;
