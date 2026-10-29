@@ -57,8 +57,8 @@ vector<int> suffix_array(string &s) {
 	vector<int> a(n), c(n);
 	iota(all(a), 0);
 	sort(all(a), [&](int i, int j) {
-			return s[i] < s[j];
-			});
+		return s[i] < s[j];
+	});
 	c[a[0]] = 0;
 	for (int i = 1; i < n; i++) {
 		c[a[i]] = c[a[i - 1]] + (s[a[i - 1]] != s[a[i]]);

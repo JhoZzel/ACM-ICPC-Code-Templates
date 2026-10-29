@@ -13,7 +13,7 @@ int C[N];
 int dp[N];
 bool vis[N];
 int color[N];
-bool bridge[N];
+bool bridge[N]; // M edges
 vector<int> T[N];
 vector<pair<int,int>> G[N];
 vector<pair<int,int>> edges;

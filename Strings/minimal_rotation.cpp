@@ -1,5 +1,7 @@
-string minimal_rotation(string s) { // O(n)
-	int n = s.length();
+// Booth algorithm O(n)
+//
+string minimal_rotation(string s) { // maneja los repetidos
+	int n = s.size();
 	s += s;
 	int i = 0, j = 1;
 	while (i < n and j < n) {

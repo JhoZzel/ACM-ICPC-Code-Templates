@@ -13,7 +13,7 @@ int dp[N], bck_hit[N];
 bool vis[N];
 int color[N];
 bool art[N];
-bool bridge[N];
+bool bridge[N]; // M edges
 
 int C[N];
 vector<int> T[N];

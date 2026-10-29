@@ -35,3 +35,15 @@ int query(int u, int v) {
     int d = (1 << k);
     return f(st[l][k], st[r - d + 1][k]);
 }
+
+
+// a-b path  c-d path   -> find intersection of two paths in tree
+pair<int,int> path_inter(int a, int b, int c, int d) {
+	int cand[] = {lca(a, c), lca(a, d), lca(b, c), lca(b, d)};	
+	sort(cand, cand + 4, [&](int i, int j){
+		return h[i] > h[j];
+	});
+	int p = cand[0], q = cand[1];
+	if (h[p] < max(h[lca(a, b)], h[lca(c, d)])) return {-1, -1};
+	return {p, q};
+}
